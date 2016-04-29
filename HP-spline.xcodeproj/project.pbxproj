@@ -25,6 +25,12 @@
 /* Begin PBXFileReference section */
 		0D8531A71CD138C6009750B5 /* HP-spline */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "HP-spline"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D8531AA1CD138C6009750B5 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		0D8531B11CD1397D009750B5 /* Point.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Point.h; sourceTree = "<group>"; };
+		0D8531B21CD13BDF009750B5 /* Mesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Mesh.h; sourceTree = "<group>"; };
+		0D8531B31CD13C0B009750B5 /* Element.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Element.h; sourceTree = "<group>"; };
+		0D8531B41CD13D8B009750B5 /* CellId.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CellId.h; sourceTree = "<group>"; };
+		0D8531B51CD13DBC009750B5 /* defs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = defs.h; sourceTree = "<group>"; };
+		0D8531B61CD13F70009750B5 /* QuadTree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuadTree.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +63,13 @@
 		0D8531A91CD138C6009750B5 /* HP-spline */ = {
 			isa = PBXGroup;
 			children = (
+				0D8531B51CD13DBC009750B5 /* defs.h */,
 				0D8531AA1CD138C6009750B5 /* main.cpp */,
+				0D8531B11CD1397D009750B5 /* Point.h */,
+				0D8531B41CD13D8B009750B5 /* CellId.h */,
+				0D8531B21CD13BDF009750B5 /* Mesh.h */,
+				0D8531B31CD13C0B009750B5 /* Element.h */,
+				0D8531B61CD13F70009750B5 /* QuadTree.h */,
 			);
 			path = "HP-spline";
 			sourceTree = "<group>";
@@ -129,7 +141,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -171,7 +183,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;

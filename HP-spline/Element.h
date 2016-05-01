@@ -21,6 +21,9 @@ public:
     auto& getBounds() const {
         return bounds;
     }
+    auto& getNeighbors() const {
+        return neighbors;
+    }
     
     // Will autodestruct
     std::pair<Element*, Element*> split(int dim) {
@@ -49,6 +52,19 @@ public:
             neighbors.insert(&neighbor);
             neighbor.neighbors.insert(this);
         }
+    }
+    
+    auto findCornerNeighbors() const {
+        std::unordered_set<Element*> corners;
+        for(auto el: neighbors) {
+            for(auto el2 : el->getNeighbors()) {
+                auto& bds = el2->getBounds();
+                if(bounds.touches(bds) && neighbors.count(el2) == 0) {
+                    corners.insert(el2);
+                }
+            }
+        }
+        return corners;
     }
 };
 

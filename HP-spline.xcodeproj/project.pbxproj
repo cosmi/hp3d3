@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0D8531AB1CD138C6009750B5 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0D8531AA1CD138C6009750B5 /* main.cpp */; };
+		0D8531BA1CD3B3BF009750B5 /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0D8531B81CD3B3BF009750B5 /* test.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +32,9 @@
 		0D8531B41CD13D8B009750B5 /* CellId.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CellId.h; sourceTree = "<group>"; };
 		0D8531B51CD13DBC009750B5 /* defs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = defs.h; sourceTree = "<group>"; };
 		0D8531B61CD13F70009750B5 /* QuadTree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuadTree.h; sourceTree = "<group>"; };
+		0D8531B71CD3AF88009750B5 /* meshBuilders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = meshBuilders.h; sourceTree = "<group>"; };
+		0D8531B81CD3B3BF009750B5 /* test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test.cpp; sourceTree = "<group>"; };
+		0D8531B91CD3B3BF009750B5 /* test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = test.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +74,9 @@
 				0D8531B21CD13BDF009750B5 /* Mesh.h */,
 				0D8531B31CD13C0B009750B5 /* Element.h */,
 				0D8531B61CD13F70009750B5 /* QuadTree.h */,
+				0D8531B71CD3AF88009750B5 /* meshBuilders.h */,
+				0D8531B81CD3B3BF009750B5 /* test.cpp */,
+				0D8531B91CD3B3BF009750B5 /* test.h */,
 			);
 			path = "HP-spline";
 			sourceTree = "<group>";
@@ -131,6 +138,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0D8531AB1CD138C6009750B5 /* main.cpp in Sources */,
+				0D8531BA1CD3B3BF009750B5 /* test.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

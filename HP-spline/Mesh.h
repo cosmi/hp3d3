@@ -26,6 +26,9 @@ public:
     Mesh(CellId<DIMS> bounds) : elementsTree(bounds) {
         addElement(new Element(bounds));
     }
+    ~Mesh() {
+        for(auto el : elements) delete el;
+    }
     
     auto& getElements() const {
         return elements;
@@ -41,15 +44,15 @@ public:
         elementsTree.addElement(el);
     }
     
-    void split(Element* e, int dim) {
+    std::pair<Element*, Element*> split(Element* e, int dim) {
         removeElement(e);
         auto p = e->split(dim);
         addElement(p.first);
         addElement(p.second);
+        return p;
     }
     
-    // Will autodestruct
-    void splitInAllDims(Element* e) {
+    std::list<Element*>&& splitInAllDims(Element* e) {
         removeElement(e);
         std::list<Element*> ret(1,e);
         FOR(dim, DIMS) {
@@ -64,8 +67,12 @@ public:
         for(auto el: ret) {
             addElement(el);
         }
+        return ret;
     }
     
+    auto& getQuadTree() const {
+        return elementsTree;
+    }
 };
 
 

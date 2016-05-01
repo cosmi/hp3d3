@@ -211,6 +211,32 @@ public:
         return CellId(getFrom(), nsize);
     }
     
+    CellId getOverlap(const CellId& c2) const {
+        CellId cid = *this;
+        FOR(i, DIMS) {
+            cid.from.set(i, std::max(from[i], c2.from[i]));
+            cid.to.set(i, std::min(to[i], c2.to[i]));
+            assert(cid.from[i] <= cid.to[i]);
+        }
+        return cid;
+    }
+    
+    CellId getAdjacentSide(const CellId& c2) const {
+        CellId cid = *this;
+        FOR(i, DIMS) {
+            if(from[i] == c2.to[i]) {
+                cid.to.set(i, c2.to[i]);
+            }
+            if(to[i] == c2.from[i]) {
+                cid.from.set(i, c2.from[i]);
+            }
+        }
+        return cid;
+    }
+    
+    dim_t getLength(int dim) const {
+        return to[dim] - from[dim];
+    }
     
     /* Node methods */
     

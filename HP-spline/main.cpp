@@ -14,7 +14,7 @@
 
 
 int main(int argc, const char * argv[]) {
-//    selfTest();
+    selfTest();
     using namespace std;
     const int DIMS = 2;
     Mesh<DIMS> m(CellId<DIMS>({0,0,0},{4,4,4}));

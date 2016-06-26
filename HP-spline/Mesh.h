@@ -52,7 +52,7 @@ public:
         return p;
     }
     
-    std::list<Element*>&& splitInAllDims(Element* e) {
+    std::list<Element*> splitInAllDims(Element* e) {
         removeElement(e);
         std::list<Element*> ret(1,e);
         FOR(dim, DIMS) {

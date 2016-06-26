@@ -65,6 +65,25 @@ void refineMeshUntilBounds(Mesh<DIMS>& mesh, CellId<DIMS> bounds) {
     }
 }
 
+
+template<int DIMS>
+void refineMeshUntilBoundsByQuadDivisions(Mesh<DIMS>& mesh, CellId<DIMS> bounds) {
+    while(true) {
+        bool change = false;
+        for(auto el : mesh.getQuadTree().findElementsOverlappingBounds(bounds)) {
+            auto bds = el->getBounds();
+            if(!bounds.covers(bds)) {
+                
+                mesh.splitInAllDims(el);
+                change = true;
+                break;
+            }
+        }
+        if(!change) break;
+    }
+}
+
+
 template<int DIMS>
 void enforceTauRule(Mesh<DIMS>& mesh, CellId<DIMS> bounds) {
     while(true) {

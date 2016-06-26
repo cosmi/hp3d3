@@ -50,6 +50,17 @@ public:
         }
         return ret;
     }
+    auto findElementsTouchingBounds(const CellId<DIMS>& bds, int minDims = 0) const {
+        std::unordered_set<Element*> ret;
+        for( auto el : elements) {
+            if(!el->getBounds().overlaps(bds)) continue;
+            auto overlap = el->getBounds().getOverlap(bds);
+            if(overlap.getDimensionality() >= minDims) {
+                ret.insert(el);
+            }
+        }
+        return ret;
+    }
     
     auto getBounds() const {
         return bounds;

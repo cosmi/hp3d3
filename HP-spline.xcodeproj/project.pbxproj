@@ -24,6 +24,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0D38B7521CE1C902006E4F7E /* Node.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
+		0D38B7531CE1C9BF006E4F7E /* HPNodes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPNodes.h; sourceTree = "<group>"; };
 		0D8531A71CD138C6009750B5 /* HP-spline */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "HP-spline"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D8531AA1CD138C6009750B5 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		0D8531B11CD1397D009750B5 /* Point.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Point.h; sourceTree = "<group>"; };
@@ -77,6 +79,8 @@
 				0D8531B71CD3AF88009750B5 /* meshBuilders.h */,
 				0D8531B81CD3B3BF009750B5 /* test.cpp */,
 				0D8531B91CD3B3BF009750B5 /* test.h */,
+				0D38B7521CE1C902006E4F7E /* Node.h */,
+				0D38B7531CE1C9BF006E4F7E /* HPNodes.h */,
 			);
 			path = "HP-spline";
 			sourceTree = "<group>";
@@ -255,6 +259,7 @@
 				0D8531B01CD138C6009750B5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

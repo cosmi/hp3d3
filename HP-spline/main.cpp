@@ -11,9 +11,17 @@
 #include "meshBuilders.h"
 
 #include "test.h"
+#include "SVGCanvas.h"
 
+void testCanvas() {
+    SVGCanvas<> c("/tmp/canvas.svg", 0, 0, 100, 100);
+    c.drawLine(20,20,45,60);
+    c.close();
+    system("open /tmp/canvas.svg");
+}
 
 int main(int argc, const char * argv[]) {
+    testCanvas();
     selfTest();
     using namespace std;
     const int DIMS = 2;

@@ -25,9 +25,7 @@ std::cerr << "HERELY "<< el->getNeighbors().size() << std::endl;
         auto overlap = nei->getBounds().getOverlap(el->getBounds());
         auto side = nei->getBounds().getAdjacentSide(el->getBounds());
         FOR(i, DIMS) {
-            std::cerr << "HERE"<<std::endl;
             if(side.getLength(i) > 2 * overlap.getLength(i)) {
-                            std::cerr << "HERE1"<<std::endl;
                 auto ret = mesh.split(el, i);
                 for (auto child : {ret.first, ret.second}) {
                     neighbors.push_back(child);

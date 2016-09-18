@@ -12,11 +12,13 @@
 
 #include "test.h"
 #include "SVGCanvas.h"
+#include "SVGRenderer.h"
+#include "projections.hpp"
 
 void testCanvas() {
-    SVGCanvas<> c("/tmp/canvas.svg", 0, 0, 100, 100);
-    c.drawLine(20,20,45,60);
-    c.close();
+    SVGRenderer<3, PerspectiveProjection> r("/tmp/canvas.svg", CellId<3>({0,0,0},{4,4,4}));
+    r.drawBounds(CellId<3>({0,0,0},{4,4,4}));
+    r.close();
     system("open /tmp/canvas.svg");
 }
 

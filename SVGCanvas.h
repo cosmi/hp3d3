@@ -12,6 +12,7 @@
 #include <iostream>
 #include <fstream>
 #define ATTR(a) " " << #a << "=\"" << a << "\""
+#define ATTR2(a,val ) " " << a << "=\"" << val << "\""
 #include "SVGHelpers.hpp"
 
 template <class ostream = std::ofstream>
@@ -20,13 +21,18 @@ class SVGCanvas {
     ostream os;
     
     void initSVG(double x1, double y1, double x2, double y2) {
+        double width = x2-x1;
+        double height = y2-y1;
+        double lineWidth = std::min(1., std::max(width,height)/500);
+        double margin = 5*lineWidth;
+        
         os << "<svg version=\"1.1\" baseProfile=\"full\" xmlns=\"http://www.w3.org/2000/svg\""
-           << " width=\"600px\""
+//           << " width=\"500px\""
            << " height=\"500px\""
-           << " viewBox=\"" << x1 << ' ' << y1 << ' ' << x2 << ' ' << y2 << "\""
+           << " viewBox=\"" << x1-margin << ' ' << y1-margin << ' ' << x2-x1 + 2*margin << ' ' << y2-y1 + 2*margin << "\""
            << ">"
            << std::endl;
-        openGroup(1, "black");
+        openGroup("stroke-width", lineWidth, "stroke", "black", "stroke-linecap", "round");
     }
     
     void initSVG(const SVGPoint& p1, const SVGPoint& p2) {
@@ -34,26 +40,30 @@ class SVGCanvas {
     }
     
 public:
-    SVGCanvas(string s, double x1, double y1, double x2, double y2):os(s.c_str(), std::ofstream::out) {
+    SVGCanvas(const char* s, double x1, double y1, double x2, double y2):os(s, std::ofstream::out) {
         initSVG(x1, y1, x2, y2);
     }
     SVGCanvas(ostream& os, double x1, double y1, double x2, double y2):os(os) {
         initSVG(x1, y1, x2, y2);
     }
-    SVGCanvas(string s, const SVGPoint& p1, const SVGPoint& p2):os(s.c_str(), std::ofstream::out) {
+    SVGCanvas(const char* s, const SVGPoint& p1, const SVGPoint& p2):os(s, std::ofstream::out) {
         initSVG(p1, p2);
     }
     SVGCanvas(ostream& os, const SVGPoint& p1, const SVGPoint& p2):os(os) {
         initSVG(p1, p2);
     }
-    void openGroup(double strokeWidth, const char* stroke) {
-        os  << "<g" << ATTR(stroke) << ATTR(strokeWidth) << ">" << std::endl;
+    template<class ValueType>
+    void openGroup(const char* attrName, const ValueType& value) {
+        os  << "<g" << ATTR2(attrName, value) << ">" << std::endl;
     }
-    void openGroup(double strokeWidth) {
-        os  << "<g" << ATTR(strokeWidth) << ">" << std::endl;
+    template<class ValueType, class ValueType2>
+    void openGroup(const char* attrName, const ValueType& value, const char* attrName2, const ValueType2& value2) {
+        os  << "<g" << ATTR2(attrName, value) << ATTR2(attrName2, value2) << ">" << std::endl;
     }
-    void openGroup(const char* stroke) {
-        os  << "<g" << ATTR(stroke) << ">" << std::endl;
+    
+    template<class ValueType, class ValueType2, class ValueType3>
+    void openGroup(const char* attrName, const ValueType& value, const char* attrName2, const ValueType2& value2, const char* attrName3, const ValueType3& value3) {
+        os  << "<g" << ATTR2(attrName, value) << ATTR2(attrName2, value2) << ATTR2(attrName3, value3) << ">" << std::endl;
     }
     void closeGroup() {
         os << "</g>" << std::endl;

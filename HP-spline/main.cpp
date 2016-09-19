@@ -20,9 +20,15 @@ int main(int argc, const char * argv[]) {
 //    testCanvas();
     selfTest();
     using namespace std;
-    const int DIMS = 2;
-    Mesh<DIMS> m(CellId<DIMS>({0,0,0},{4,4,4}));
-    refineMeshUntilBounds(m, CellId<DIMS>({0,0,0}, {1,1,1}));
+    const int DIMS = 3;
+    Mesh<DIMS> m(CellId<DIMS>({0,0,0},{16,16,16}));
+    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({4,4,4}, {8,5,8}));
+    assert(isQuadLikeMesh(m));
+    ensureTauRuleForQuadLikeMesh(m);
+    
+    // does not work here –> probably some neighbors links are being lost
+    // TODO: write neighbor graph integrity checker
+    assert(isQuadLikeTauRuleMesh(m));
     renderAndOpen(m);
     cout << m.getQuadTree().findElementsOverlappingBounds(CellId<DIMS>({1,1,1},{3,3,3})).size() << endl;
     return 0;

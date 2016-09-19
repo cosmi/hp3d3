@@ -18,16 +18,7 @@ using mask_t = long long unsigned;
 #define FORI(x, a, n) for(typeof(n) x = (a), __n = (n); x < __n; x++)
 #define FORR(x, n) for(typeof(n) x = (n)-1; x >= 0; x--)
 
-
-template<class T>
-std::string toString(const T& t, bool *ok = NULL)
-{
-    std::ostringstream stream;
-    stream << t;
-    if(ok != NULL)
-        *ok = (stream.fail() == false);
-    return stream.str();
-}
+#include "helpers.hpp"
 
 
 #endif

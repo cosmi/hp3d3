@@ -70,9 +70,9 @@ struct PerspectiveProjection {
     }
     SVGPoint operator()(const CellId<3>& cellId) {
         return operator()(Coords(
-                                 (cellId.getTo()[0]-cellId.getFrom()[0])/2.,
-                                 (cellId.getTo()[1]-cellId.getFrom()[1])/2.,
-                                 (cellId.getTo()[2]-cellId.getFrom()[2])/2.));
+                                 (cellId.getTo()[0]+cellId.getFrom()[0])/2.,
+                                 (cellId.getTo()[1]+cellId.getFrom()[1])/2.,
+                                 (cellId.getTo()[2]+cellId.getFrom()[2])/2.));
     }
 };
 

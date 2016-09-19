@@ -50,8 +50,7 @@ public:
     SVGRenderer(const char* s, const CellId<DIMS>& bounds):
         filename(s),
         projection(),
-        canvas(s, calculateBounds(bounds, Projection()).first, calculateBounds(bounds, Projection()).second){
-    }
+        canvas(s, calculateBounds(bounds, Projection()).first, calculateBounds(bounds, Projection()).second){}
     void drawCellDiagonal(const CellId<DIMS>& cid) {
         canvas.drawLine(projection(cid.getFrom()), projection(cid.getTo()));
     }
@@ -67,7 +66,7 @@ public:
         for(auto& element : mesh.getElements()) {
             drawBounds(element->getBounds());
         }
-        drawNeighborsGraph(mesh);
+//        drawNeighborsGraph(mesh);
     }
     
     void drawNeighborsGraph(const Mesh<DIMS>& mesh) {
@@ -81,6 +80,9 @@ public:
     }
     
     void close() {
+        canvas.openGroup("fill", "yellow");
+        canvas.drawPoint(projection(Point<DIMS>::origin()));
+        canvas.closeGroup();
         canvas.close();
     }
     void openImage() {
@@ -91,8 +93,8 @@ public:
     }
 };
 
-void renderAndOpen(const Mesh<2>& mesh, const char* filename="/tmp/canvas.svg");
+void renderAndOpen(const Mesh<2>& mesh, const char* filename=nullptr);
 
-void renderAndOpen(const Mesh<3>& mesh, const char* filename="/tmp/canvas.svg");
+void renderAndOpen(const Mesh<3>& mesh, const char* filename=nullptr);
 
 #endif /* SVGRenderer_hpp */

@@ -7,15 +7,26 @@
 //
 
 #include "SVGRenderer.h"
+
+#include <string>
+
+static char openCounter = 1;
+
+std::string getTmpFilename() {
+    return "/tmp/canvas" + toString((int)(openCounter++)) + ".svg";
+}
+
 void renderAndOpen(const Mesh<2>& mesh, const char* filename) {
-    SVGRenderer<2> r(filename, mesh.getBounds());
+    std::string s = filename?filename:getTmpFilename();
+    SVGRenderer<2> r(s.c_str(), mesh.getBounds());
     r.drawMesh(mesh);
     r.close();
     r.openImage();
 }
 
 void renderAndOpen(const Mesh<3>& mesh, const char* filename) {
-    SVGRenderer<3, PerspectiveProjection> r(filename, mesh.getBounds());
+    std::string s = filename?filename:getTmpFilename();
+    SVGRenderer<3, PerspectiveProjection> r(s.c_str(), mesh.getBounds());
     r.drawMesh(mesh);
     r.close();
     r.openImage();

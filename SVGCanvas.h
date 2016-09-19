@@ -32,7 +32,7 @@ class SVGCanvas {
            << " viewBox=\"" << x1-margin << ' ' << y1-margin << ' ' << x2-x1 + 2*margin << ' ' << y2-y1 + 2*margin << "\""
            << ">"
            << std::endl;
-        openGroup("stroke-width", lineWidth, "stroke", "black", "stroke-linecap", "round");
+        openGroup("font-size", lineWidth*10, "stroke-width", lineWidth, "stroke", "black", "stroke-linecap", "round");
     }
     
     void initSVG(const SVGPoint& p1, const SVGPoint& p2) {
@@ -65,6 +65,11 @@ public:
     void openGroup(const char* attrName, const ValueType& value, const char* attrName2, const ValueType2& value2, const char* attrName3, const ValueType3& value3) {
         os  << "<g" << ATTR2(attrName, value) << ATTR2(attrName2, value2) << ATTR2(attrName3, value3) << ">" << std::endl;
     }
+    template<class ValueType, class ValueType2, class ValueType3, class ValueType4>
+    void openGroup(const char* attrName, const ValueType& value, const char* attrName2, const ValueType2& value2, const char* attrName3, const ValueType3& value3,
+                   const char* attrName4, const ValueType4& value4) {
+        os  << "<g" << ATTR2(attrName, value) << ATTR2(attrName2, value2) << ATTR2(attrName3, value3) << ATTR2(attrName4, value4) << ">" << std::endl;
+    }
     void closeGroup() {
         os << "</g>" << std::endl;
     }
@@ -85,6 +90,12 @@ public:
     }
     void drawLine(const SVGLine& line) {
         drawLine(line.p1, line.p2);
+    }
+    void drawText(const SVGPoint& pt, const string& s) {
+        os << "<text" << ATTR2("x", pt.x) << ATTR2("y", pt.y) << ">" << s << "</text>" << std::endl;
+    }
+    void writeComment(const string & s){
+        os << "<!--" << s << "-->" << std::endl;
     }
 };
 

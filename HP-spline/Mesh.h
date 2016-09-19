@@ -30,6 +30,9 @@ public:
         for(auto el : elements) delete el;
     }
     
+    const CellId<DIMS>& getBounds() const {
+        return elementsTree.getBounds();
+    }
     auto& getElements() const {
         return elements;
     }

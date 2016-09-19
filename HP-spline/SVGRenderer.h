@@ -13,6 +13,7 @@
 #include "projections.hpp"
 #include "CellId.h"
 #include "Point.h"
+#include "Mesh.h"
 
 
 template<int DIMS, class Projection = IdentityProjection>
@@ -26,7 +27,6 @@ std::pair<SVGPoint, SVGPoint> calculateBounds(const CellId<DIMS>& cid, const Pro
             first = false;
         } else {
             auto pt2 = p(point.getFrom());
-            std::cout << "PT>" << pt2.x << " " << pt2.y << std::endl;
             if(pt2.x < ptMin.x) ptMin.x = pt2.x;
             if(pt2.y < ptMin.y) ptMin.y = pt2.y;
             if(pt2.x > ptMax.x) ptMax.x = pt2.x;
@@ -40,12 +40,15 @@ template<int DIMS, class Projection = IdentityProjection, class SVGCanvas = SVGC
 class SVGRenderer {
     SVGCanvas canvas;
     Projection projection;
+    std::string filename;
 public:
     SVGRenderer(const char* s, const CellId<DIMS>& bounds, const Projection& p):
+        filename(s),
         canvas(s, calculateBounds(bounds, p).first, calculateBounds(bounds, p).second),
         projection(p) {
     }
     SVGRenderer(const char* s, const CellId<DIMS>& bounds):
+        filename(s),
         projection(),
         canvas(s, calculateBounds(bounds, Projection()).first, calculateBounds(bounds, Projection()).second){
     }
@@ -53,18 +56,30 @@ public:
         canvas.drawLine(projection(cid.getFrom()), projection(cid.getTo()));
     }
     void drawBounds(const CellId<DIMS>& bounds) {
+        canvas.writeComment("bounds " + toString(bounds));
         auto lines = bounds.getLowerDimensionalityBounds(1);
         for(auto & line: lines) {
             drawCellDiagonal(line);
         }
     }
+    void drawMesh(const Mesh<DIMS>& mesh) {
+        for(auto& element : mesh.getElements()) {
+            drawBounds(element->getBounds());
+        }
+    }
     void close() {
         canvas.close();
+    }
+    void openImage() {
+        system(("open " + filename).c_str());
     }
     void getCanvas() {
         return canvas;
     }
 };
 
+void renderAndOpen(const Mesh<2>& mesh, const char* filename="/tmp/canvas.svg");
+
+void renderAndOpen(const Mesh<3>& mesh, const char* filename="/tmp/canvas.svg");
 
 #endif /* SVGRenderer_hpp */

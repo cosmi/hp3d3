@@ -7,3 +7,16 @@
 //
 
 #include "SVGRenderer.h"
+void renderAndOpen(const Mesh<2>& mesh, const char* filename) {
+    SVGRenderer<2> r(filename, mesh.getBounds());
+    r.drawMesh(mesh);
+    r.close();
+    r.openImage();
+}
+
+void renderAndOpen(const Mesh<3>& mesh, const char* filename) {
+    SVGRenderer<3, PerspectiveProjection> r(filename, mesh.getBounds());
+    r.drawMesh(mesh);
+    r.close();
+    r.openImage();
+}

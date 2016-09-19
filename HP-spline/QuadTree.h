@@ -62,7 +62,7 @@ public:
         return ret;
     }
     
-    auto getBounds() const {
+    const CellId<DIMS>& getBounds() const {
         return bounds;
     }
     QuadTree(CellId<DIMS> bounds): bounds(bounds){};

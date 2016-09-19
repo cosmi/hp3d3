@@ -18,7 +18,7 @@ class Element {
     std::unordered_set<Element*> neighbors;
 public:
     Element(const CellId<DIMS>& bounds):bounds(bounds){}
-    auto& getBounds() const {
+    const CellId<DIMS>& getBounds() const {
         return bounds;
     }
     auto& getNeighbors() const {

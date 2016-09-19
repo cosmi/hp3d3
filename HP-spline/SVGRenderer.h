@@ -61,12 +61,25 @@ public:
         for(auto & line: lines) {
             drawCellDiagonal(line);
         }
+        canvas.drawPoint(projection(bounds));
     }
     void drawMesh(const Mesh<DIMS>& mesh) {
         for(auto& element : mesh.getElements()) {
             drawBounds(element->getBounds());
         }
+        drawNeighborsGraph(mesh);
     }
+    
+    void drawNeighborsGraph(const Mesh<DIMS>& mesh) {
+        canvas.openArrowGroup();
+        for(auto& el1 : mesh.getElements()) {
+            for(auto& el2 : el1->getNeighbors()) {
+                canvas.drawLine(projection(el1->getBounds()), projection(el2->getBounds()));
+            }
+        }
+        canvas.closeGroup();
+    }
+    
     void close() {
         canvas.close();
     }

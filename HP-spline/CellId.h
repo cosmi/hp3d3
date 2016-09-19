@@ -138,12 +138,15 @@ public:
      */
     bool isNeighboring(const CellId& cid) const {
         int overlaps = 0;
+        int touches = 0;
         FOR(i, DIMS) {
             if(to[i] > cid.getFrom()[i] && from[i] < cid.getTo()[i]) {
                 overlaps++;
+            } else if(to[i] == cid.getFrom()[i] || from[i] == cid.getTo()[i]) {
+                touches++;
             }
         }
-        return overlaps == DIMS-1;
+        return overlaps == DIMS-1 && touches == 1;
     }
     
     bool touchesInteriorOf(const CellId& cid) const {
@@ -249,6 +252,9 @@ public:
     }
     size_t getDimensionality() const {
         return countNonZeroDims();
+    }
+    bool isFullyDimensional() const {
+        return getDimensionality() == DIMS;
     }
     
     size_t countDimsOnBounds(const CellId& bounds) const {

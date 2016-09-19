@@ -30,8 +30,12 @@ class SVGCanvas {
 //           << " width=\"500px\""
            << " height=\"500px\""
            << " viewBox=\"" << x1-margin << ' ' << y1-margin << ' ' << x2-x1 + 2*margin << ' ' << y2-y1 + 2*margin << "\""
-           << ">"
-           << std::endl;
+        << ">" << std::endl
+        << "<defs><marker id='arrow' viewBox='0 0 10 10' refX='10' refY='5' stroke='black' fill='red'"
+        << " markerWidth='12' markerHeight='12' orient='auto'>"
+        << "<path d='M 0 2 L 10 5 L 0 8 z' />"
+        << "</marker></defs>"
+        << std::endl;
         openGroup("font-size", lineWidth*10, "stroke-width", lineWidth, "stroke", "black", "stroke-linecap", "round");
     }
     
@@ -73,9 +77,13 @@ public:
     void closeGroup() {
         os << "</g>" << std::endl;
     }
+    void openArrowGroup() {
+        openGroup("marker-end", "url(#arrow)", "stroke-linecap", "none");
+    }
     
     void closeSVG() {
         closeGroup();
+//        closeGroup();
         os << "</svg>" << std::endl;
     }
     void close() {
@@ -90,6 +98,9 @@ public:
     }
     void drawLine(const SVGLine& line) {
         drawLine(line.p1, line.p2);
+    }
+    void drawPoint(const SVGPoint& p) {
+        os << "<circle" << ATTR2("cx", p.x) << ATTR2("cy", p.y) << " r='0.5em'/>" << std::endl;
     }
     void drawText(const SVGPoint& pt, const string& s) {
         os << "<text" << ATTR2("x", pt.x) << ATTR2("y", pt.y) << ">" << s << "</text>" << std::endl;

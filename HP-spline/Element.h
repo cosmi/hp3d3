@@ -27,7 +27,10 @@ public:
     
     // Will autodestruct
     std::pair<Element*, Element*> split(int dim) {
+        
         auto p = bounds.split(dim);
+        assert(p.first.isFullyDimensional());
+        assert(p.second.isFullyDimensional());
         auto * a = new Element(p.first);
         auto * b = new Element(p.second);
         disconnect();
@@ -35,6 +38,7 @@ public:
             a->connectIfNeighboring(*el);
             b->connectIfNeighboring(*el);
         }
+        a->connectIfNeighboring(*b);
         delete this;
         return std::make_pair(a,b);
     }
@@ -48,9 +52,14 @@ public:
     }
     
     void connectIfNeighboring(Element& neighbor) {
+        using namespace std;
         if(getBounds().isNeighboring(neighbor.getBounds())) {
+            cout << "Nei" << getBounds() << " " << neighbor.getBounds() << endl;
+            cout << getBounds().getOverlap(neighbor.getBounds()) << endl;
             neighbors.insert(&neighbor);
             neighbor.neighbors.insert(this);
+        } else {
+            cout << "NotNei" << getBounds() << " " << neighbor.getBounds() << endl;
         }
     }
     

@@ -16,14 +16,14 @@
 
 template<int DIMS>
 void ensureNeighborDegree(Mesh<DIMS> &mesh, Element<DIMS> *el) {
+    using namespace std;
     std::vector<Element<DIMS>*> neighbors(el->getNeighbors().begin(), el->getNeighbors().end());
-std::cerr << "HERELY "<< el->getNeighbors().size() << std::endl;
     while(!neighbors.empty()) {
-                                                                std::cerr << "HEREST"<<std::endl;
         auto nei = neighbors.back();
         neighbors.pop_back();
+        cout << nei->getBounds() << " " << el->getBounds() << endl;
         auto overlap = nei->getBounds().getOverlap(el->getBounds());
-        auto side = nei->getBounds().getAdjacentSide(el->getBounds());
+        auto side = el->getBounds().getAdjacentSide(nei->getBounds());
         FOR(i, DIMS) {
             if(side.getLength(i) > 2 * overlap.getLength(i)) {
                 auto ret = mesh.split(el, i);
@@ -46,10 +46,8 @@ void refineMeshUntilBounds(Mesh<DIMS>& mesh, CellId<DIMS> bounds) {
 
                 FOR(i, DIMS) {
                     if(bds.getTo()[i] > bounds.getTo()[i] || bds.getFrom()[i] < bounds.getFrom()[i]) {
-                                                    std::cerr << "HER"<<std::endl;
                         auto children = mesh.split(el, i);
                         for(auto ch : {children.first, children.second} ) {
-                                                        std::cerr << "HERER"<<std::endl;
                             ensureNeighborDegree(mesh, ch);
                         }
                         break;

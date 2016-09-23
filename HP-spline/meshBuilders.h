@@ -156,6 +156,7 @@ void ensureTauRuleForQuadLikeMesh(Mesh<DIMS>& mesh) {
     std::set<Element<DIMS>*> S;
     for(auto el : mesh.getElements()) {
         S.insert(el);
+        el->label = "x";
     }
     while(!S.empty()) {
         auto el = *S.begin();
@@ -164,7 +165,10 @@ void ensureTauRuleForQuadLikeMesh(Mesh<DIMS>& mesh) {
             for(auto nei: el->getNeighbors()) {
                 S.insert(nei);
             }
-            mesh.splitInAllDims(el);
+            auto newElements = mesh.splitInAllDims(el);
+            for(auto el: newElements) {
+                S.insert(el);
+            }
         }
     }
 }
@@ -179,11 +183,13 @@ template<int DIMS>
 bool verifyNeighborGraphIntegrity(const Mesh<DIMS>& mesh) {
     for(auto el : mesh.getElements()) {
         for(auto el2 : mesh.getElements()) {
-            if(el.getBounds().touches(el2.getBounds())) {
-                
+            auto& neis = el->getNeighbors();
+            if(el->getBounds().isNeighboring(el2->getBounds()) != (neis.find(el2) != neis.end())) {
+                return false;
             }
         }
     }
+    return true;
 }
 
 

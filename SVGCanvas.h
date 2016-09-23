@@ -34,9 +34,12 @@ class SVGCanvas {
         << "<defs><marker id='arrow' viewBox='0 0 10 10' refX='10' refY='5' stroke='black' fill='red'"
         << " markerWidth='12' markerHeight='12' orient='auto'>"
         << "<path d='M 0 2 L 10 5 L 0 8 z' />"
-        << "</marker></defs>"
+        << "</marker>"
+        
+        << "<filter x='0' y='0' width='1' height='1' id='bg'><feFlood flood-color='rgba(255,255,255,0.6)'/><feComposite in='SourceGraphic'/></filter>"
+        << "</defs>"
         << std::endl;
-        openGroup("font-size", lineWidth*10, "stroke-width", lineWidth, "stroke", "black", "stroke-linecap", "round");
+        openGroup("font-size", lineWidth*16, "stroke-width", lineWidth, "stroke", "black", "stroke-linecap", "round");
     }
     
     void initSVG(const SVGPoint& p1, const SVGPoint& p2) {
@@ -103,7 +106,7 @@ public:
         os << "<circle" << ATTR2("cx", p.x) << ATTR2("cy", p.y) << " r='0.5em'/>" << std::endl;
     }
     void drawText(const SVGPoint& pt, const string& s) {
-        os << "<text" << ATTR2("x", pt.x) << ATTR2("y", pt.y) << ">" << s << "</text>" << std::endl;
+        os << "<text filter='url(#bg)' text-anchor='middle'" << ATTR2("x", pt.x) << ATTR2("y", pt.y) << ">" << s << "</text>" << std::endl;
     }
     void writeComment(const string & s){
         os << "<!--" << s << "-->" << std::endl;

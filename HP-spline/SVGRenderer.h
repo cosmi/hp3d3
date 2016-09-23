@@ -60,15 +60,25 @@ public:
         for(auto & line: lines) {
             drawCellDiagonal(line);
         }
+        
 //        canvas.drawPoint(projection(bounds));
     }
     void drawMesh(const Mesh<DIMS>& mesh) {
         canvas.openGroup("stroke", "#ccc");
         for(auto& element : mesh.getElements()) {
+            
             drawBounds(element->getBounds());
         }
+        
         canvas.closeGroup();
-//        drawNeighborsGraph(mesh);
+        drawNeighborsGraph(mesh);
+//        canvas.openGroup("stroke", "blue", "fill", "white");
+        for(auto& element : mesh.getElements()) {
+            if(element->label.size() >0) {
+                canvas.drawText(projection(element->getBounds()), element->label );
+            }
+        }
+//        canvas.closeGroup();
     }
     
     void drawNeighborsGraph(const Mesh<DIMS>& mesh) {

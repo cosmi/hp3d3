@@ -16,7 +16,9 @@ template<int DIMS>
 class Element {
     CellId<DIMS> bounds;
     std::unordered_set<Element*> neighbors;
+    
 public:
+    std::string label;
     Element(const CellId<DIMS>& bounds):bounds(bounds){}
     const CellId<DIMS>& getBounds() const {
         return bounds;
@@ -75,6 +77,7 @@ public:
         }
         return corners;
     }
+    
 };
 
 #endif /* Element_h */

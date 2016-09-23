@@ -32,6 +32,25 @@ void testMeshBuilders2() {
         assert(isQuadLikeTauRuleMesh(m));
         assert(m.getElements().size()==25);
     }
+    {
+        const int DIMS = 3;
+        Mesh<DIMS> m(CellId<DIMS>({0,0,0},{16,16,16}));
+        refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({4,5,6}, {5,6,7}));
+        assert(isQuadLikeMesh(m));
+        ensureTauRuleForQuadLikeMesh(m);
+        assert(isQuadLikeTauRuleMesh(m));
+        assert(m.getElements().size()==85);
+    }
+    {
+        const int DIMS = 4;
+        Mesh<DIMS> m(CellId<DIMS>({0,0,0,0},{16,16,16,16}));
+        refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({4,5,6,7}, {5,6,7,8}));
+        assert(isQuadLikeMesh(m));
+        ensureTauRuleForQuadLikeMesh(m);
+        assert(isQuadLikeTauRuleMesh(m));
+        std::cout <<m.getElements().size() << std::endl;
+        assert(m.getElements().size()==256);
+    }
 }
 
 void selfTest() {

@@ -52,6 +52,7 @@
 		D3CF981B1D8F0FE50097CCC9 /* SVGHelpers.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SVGHelpers.hpp; sourceTree = "<group>"; };
 		D3CF981D1D9089E30097CCC9 /* helpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = helpers.cpp; sourceTree = "<group>"; };
 		D3CF981E1D9089E30097CCC9 /* helpers.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = helpers.hpp; sourceTree = "<group>"; };
+		D3CF98201D95B1A60097CCC9 /* FilterCollection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FilterCollection.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +107,7 @@
 				D3CF98181D8F0F8B0097CCC9 /* projections.hpp */,
 				D3CF981A1D8F0FE50097CCC9 /* SVGHelpers.cpp */,
 				D3CF981B1D8F0FE50097CCC9 /* SVGHelpers.hpp */,
+				D3CF98201D95B1A60097CCC9 /* FilterCollection.h */,
 			);
 			path = "HP-spline";
 			sourceTree = "<group>";

@@ -14,10 +14,18 @@
 #include "SVGCanvas.h"
 #include "SVGRenderer.h"
 #include "projections.hpp"
+#include "FilterCollection.h"
+
 
 
 int main(int argc, const char * argv[]) {
 //    testCanvas();
+//    std::vector<int> V({1,2,3});
+//    auto f = filter<int>(V, [](int x){return x%2 == 0;});
+//    for(auto i : f) {
+//        std::cout << i << std::endl;
+//    }
+    
     selfTest();
     using namespace std;
     const int DIMS = 3;
@@ -25,6 +33,7 @@ int main(int argc, const char * argv[]) {
     refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({4,4,4}, {8,5,8}));
     assert(isQuadLikeMesh(m));
     ensureTauRuleForQuadLikeMesh(m);
+    
     
     // does not work here –> probably some neighbors links are being lost
     // TODO: write neighbor graph integrity checker

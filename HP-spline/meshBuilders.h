@@ -175,4 +175,16 @@ bool isQuadLikeTauRuleMesh(const Mesh<DIMS>& mesh) {
 }
 
 
+template<int DIMS>
+bool verifyNeighborGraphIntegrity(const Mesh<DIMS>& mesh) {
+    for(auto el : mesh.getElements()) {
+        for(auto el2 : mesh.getElements()) {
+            if(el.getBounds().touches(el2.getBounds())) {
+                
+            }
+        }
+    }
+}
+
+
 #endif /* meshBuilders_h */

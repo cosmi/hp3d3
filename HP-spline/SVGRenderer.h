@@ -60,12 +60,14 @@ public:
         for(auto & line: lines) {
             drawCellDiagonal(line);
         }
-        canvas.drawPoint(projection(bounds));
+//        canvas.drawPoint(projection(bounds));
     }
     void drawMesh(const Mesh<DIMS>& mesh) {
+        canvas.openGroup("stroke", "#ccc");
         for(auto& element : mesh.getElements()) {
             drawBounds(element->getBounds());
         }
+        canvas.closeGroup();
 //        drawNeighborsGraph(mesh);
     }
     

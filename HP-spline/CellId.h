@@ -133,6 +133,7 @@ public:
         return true;
     }
     
+    
     /* 
      * Has common side
      */

@@ -11,6 +11,7 @@
 #include <set>
 #include <list>
 #include "CellId.h"
+#include "FilterCollection.h"
 
 template<int DIMS>
 class Element {
@@ -23,8 +24,13 @@ public:
     const CellId<DIMS>& getBounds() const {
         return bounds;
     }
-    auto& getNeighbors() const {
+    auto& getCornerNeighbors() const {
         return neighbors;
+    }
+    auto getNeighbors() const {
+        return filter<Element*>(neighbors, [this](Element*el) {
+            return el->getBounds().isNeighboring(this->getBounds());
+        });
     }
     
     // Will autodestruct
@@ -54,29 +60,26 @@ public:
     }
     
     void connectIfNeighboring(Element& neighbor) {
+        assert(&neighbor != this);
         using namespace std;
-        if(getBounds().isNeighboring(neighbor.getBounds())) {
-//            cout << "Nei" << getBounds() << " " << neighbor.getBounds() << endl;
-//            cout << getBounds().getOverlap(neighbor.getBounds()) << endl;
+        if(getBounds().touches(neighbor.getBounds())) {
             neighbors.insert(&neighbor);
             neighbor.neighbors.insert(this);
-        } else {
-//            cout << "NotNei" << getBounds() << " " << neighbor.getBounds() << endl;
         }
     }
     
-    auto findCornerNeighbors() const {
-        std::unordered_set<Element*> corners;
-        for(auto el: neighbors) {
-            for(auto el2 : el->getNeighbors()) {
-                auto& bds = el2->getBounds();
-                if(bounds.touches(bds) && neighbors.count(el2) == 0) {
-                    corners.insert(el2);
-                }
-            }
-        }
-        return corners;
-    }
+//    auto findCornerNeighbors() const {
+//        std::unordered_set<Element*> corners;
+//        for(auto el: neighbors) {
+//            for(auto el2 : el->getNeighbors()) {
+//                auto& bds = el2->getBounds();
+//                if(bounds.touches(bds) && neighbors.count(el2) == 0) {
+//                    corners.insert(el2);
+//                }
+//            }
+//        }
+//        return corners;
+//    }
     
 };
 

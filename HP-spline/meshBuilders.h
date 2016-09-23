@@ -182,9 +182,10 @@ bool isQuadLikeTauRuleMesh(const Mesh<DIMS>& mesh) {
 template<int DIMS>
 bool verifyNeighborGraphIntegrity(const Mesh<DIMS>& mesh) {
     for(auto el : mesh.getElements()) {
-        for(auto el2 : mesh.getElements()) {
-            auto& neis = el->getNeighbors();
-            if(el->getBounds().isNeighboring(el2->getBounds()) != (neis.find(el2) != neis.end())) {
+        for(auto el2 : mesh.getElements()) if(el!=el2) {
+            auto neis = el->getCornerNeighbors();
+            if(el->getBounds().touches(el2->getBounds()) != (neis.find(el2) != neis.end())) {
+                std::cout << el->getBounds() << " " << el2->getBounds() << std::endl;
                 return false;
             }
         }

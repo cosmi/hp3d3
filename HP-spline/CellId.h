@@ -127,10 +127,16 @@ public:
      * Has at least common boundary?
      */
     bool touches(const CellId& cid) const {
-        FOR(i, DIMS) {
-            if(to[i]<cid.getFrom()[i] || from[i] > cid.getTo()[i]) return false;
-        }
-        return true;
+        return getNeighborhoodLevel(cid) >= 0;
+//        bool t = true;
+//        FOR(i, DIMS) {
+//            if(to[i]<cid.getFrom()[i] || from[i] > cid.getTo()[i]) t = false;
+//        }
+//        int lvl = getNeighborhoodLevel(cid);
+//        if((lvl >= 0) != t) {
+//            std::cout << ">>" << *this << ' ' << cid << " " << lvl << std::endl;
+//        }
+//        return t;
     }
     
     
@@ -138,6 +144,15 @@ public:
      * Has common side
      */
     bool isNeighboring(const CellId& cid) const {
+        return getNeighborhoodLevel(cid) == DIMS-1;
+    }
+    
+    /*
+     * -1 is not touching
+     * 0 is touching with corners
+     * DIMS is overlapping (or equal)
+     */
+    int getNeighborhoodLevel(const CellId& cid) const {
         int overlaps = 0;
         int touches = 0;
         FOR(i, DIMS) {
@@ -145,9 +160,14 @@ public:
                 overlaps++;
             } else if(to[i] == cid.getFrom()[i] || from[i] == cid.getTo()[i]) {
                 touches++;
+            } else {
+                return -1;
             }
         }
-        return overlaps == DIMS-1 && touches == 1;
+//        std::cout << ">>" << *this << ' ' << cid << " " << overlaps << ' '<< touches<< std::endl;
+        assert(touches + overlaps == DIMS);
+//        if(touches+overlaps < DIMS) return -1;
+        return overlaps;
     }
     
     bool touchesInteriorOf(const CellId& cid) const {

@@ -10,15 +10,18 @@
 #define Node_h
 #include "Element.h"
 #include <unordered_set>
+#include <list>
 
-
+template<int DIMS>
 class Node {
+    using Element = Element<DIMS>;
+protected:
     std::unordered_set<Element*> support;
 public:
-    list<Element*> getSupport() const {
+    const std::unordered_set<Element*>& getSupport() const {
         return support;
     }
-    virtual ~Node() = 0;
+    virtual ~Node(){};
 };
 
 

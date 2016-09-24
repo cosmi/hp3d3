@@ -15,6 +15,7 @@ class FilterCollection {
     Filter filter;
     const Collection& coll;
     
+public:
     class const_iterator {
         const FilterCollection& outer;
         iterator_type it;
@@ -43,7 +44,6 @@ class FilterCollection {
         }
     };
     
-public:
     FilterCollection(const Collection& coll, const Filter& filter): coll(coll), filter(filter) {}
     const_iterator begin() const {
         return const_iterator(coll.begin(), *this);

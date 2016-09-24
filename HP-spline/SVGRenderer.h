@@ -14,7 +14,7 @@
 #include "CellId.h"
 #include "Point.h"
 #include "Mesh.h"
-
+#include "IGANode.hpp"
 
 template<int DIMS, class Projection = IdentityProjection>
 std::pair<SVGPoint, SVGPoint> calculateBounds(const CellId<DIMS>& cid, const Projection& p) {
@@ -71,13 +71,27 @@ public:
         }
         
         canvas.closeGroup();
-        drawNeighborsGraph(mesh);
+//        drawNeighborsGraph(mesh);
 //        canvas.openGroup("stroke", "blue", "fill", "white");
         for(auto& element : mesh.getElements()) {
             if(element->label.size() >0) {
                 canvas.drawText(projection(element->getBounds()), element->label );
             }
         }
+//        canvas.closeGroup();
+    }
+    template<int DEG>
+    void drawNode(const IGANode<DEG, DIMS>& node) {
+//        canvas.openGroup("stroke", "rgba(255,0,0,0.5)");
+        canvas.openArrowGroup();
+        
+        for(auto el: node.getSupport()) {
+            if(el == node.getAnchor()) continue;
+            canvas.drawLine(projection(el->getBounds()), projection(node.getAnchor()->getBounds()));
+        }
+        canvas.closeGroup();
+//        canvas.openGroup("stroke", "rgba(0,255,0,0.5)");
+//        canvas.drawPoint(projection(node.getAnchor()->getBounds()));
 //        canvas.closeGroup();
     }
     
@@ -105,8 +119,24 @@ public:
     }
 };
 
+
+std::string getTmpCanvasFilename();
+
 void renderAndOpen(const Mesh<2>& mesh, const char* filename=nullptr);
 
 void renderAndOpen(const Mesh<3>& mesh, const char* filename=nullptr);
+
+template<class NodeSet>
+void renderAndOpen(const Mesh<2>& mesh, const NodeSet& nodes, const char* filename=nullptr) {
+    std::string s = filename?filename:getTmpCanvasFilename();
+    SVGRenderer<2> r(s.c_str(), mesh.getBounds());
+    r.drawMesh(mesh);
+    for(auto& node: nodes) {
+        r.drawNode(node);
+    }
+    r.close();
+    r.openImage();
+}
+
 
 #endif /* SVGRenderer_hpp */

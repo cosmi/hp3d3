@@ -156,7 +156,6 @@ void ensureTauRuleForQuadLikeMesh(Mesh<DIMS>& mesh) {
     std::set<Element<DIMS>*> S;
     for(auto el : mesh.getElements()) {
         S.insert(el);
-        el->label = "x";
     }
     while(!S.empty()) {
         auto el = *S.begin();

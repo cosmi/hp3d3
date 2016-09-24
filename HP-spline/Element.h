@@ -68,19 +68,6 @@ public:
         }
     }
     
-//    auto findCornerNeighbors() const {
-//        std::unordered_set<Element*> corners;
-//        for(auto el: neighbors) {
-//            for(auto el2 : el->getNeighbors()) {
-//                auto& bds = el2->getBounds();
-//                if(bounds.touches(bds) && neighbors.count(el2) == 0) {
-//                    corners.insert(el2);
-//                }
-//            }
-//        }
-//        return corners;
-//    }
-    
 };
 
 #endif /* Element_h */

@@ -9,6 +9,8 @@
 #ifndef Mesh_h
 #define Mesh_h
 #include <set>
+#include <list>
+#include <stack>
 #include "Element.h"
 #include "CellId.h"
 #include "QuadTree.h"
@@ -69,6 +71,33 @@ public:
         assert(ret.size() == 1<<DIMS);
         for(auto el: ret) {
             addElement(el);
+        }
+        return ret;
+    }
+    
+    std::list<Element*> getAllElementsInBounds(const CellId<DIMS>& bounds, Element* hint) const {
+        assert(elements.count(hint) == 1);
+        assert(bounds.overlaps(hint->getBounds()));
+        using namespace std;
+        
+        list<Element*> ret;
+        ret.push_front(hint);
+        
+        unordered_set<Element*> visited;
+        visited.insert(hint);
+        stack<Element*> S;
+        S.push(hint);
+        
+        while(!S.empty()) {
+            Element* el = S.top(); S.pop();
+            assert(bounds.overlaps(el->getBounds()));
+            for(auto nei: el->getCornerNeighbors()) if(visited.count(nei) == 0) {
+                visited.insert(nei);
+                if(bounds.overlaps(nei->getBounds())) {
+                    S.push(nei);
+                    ret.push_front(nei);
+                }
+            }
         }
         return ret;
     }

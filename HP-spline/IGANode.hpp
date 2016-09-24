@@ -13,6 +13,8 @@
 #include "CellId.h"
 #include "Mesh.h"
 #include "MapCollection.h"
+#include "BSpline.hpp"
+#include <vector>
 
 template<int DEG, int DIMS>
 class IGANode: public Node<DIMS> {
@@ -25,7 +27,7 @@ class IGANode<2, DIMS> : public Node<DIMS>{
     using Element = Element<DIMS>;
     Element* anchor;
     CellId<DIMS> bounds;
-    
+    std::vector<double> knots[DIMS];
 public:
     IGANode(Element* anchor, const Mesh<DIMS>& mesh):anchor(anchor), bounds(CellId<DIMS>::null()) {
         // This works only on quadlike, tau-rule meshes:
@@ -34,11 +36,56 @@ public:
         auto supp = mesh.getAllElementsInBounds(bounds, anchor);
         
         Node<DIMS>::support.insert(supp.begin(), supp.end());
-//        std::cout << "+" << anchor->getBounds() << " has " << Node<DIMS>::support.size() << std::endl;
-//        for(auto s : supp) {
-//            std::cout << s << ":" << s->getBounds() << "   ";
-//        }
-//        std::cout <<std::endl;
+        
+        
+        FOR(i, DIMS) {
+            knots[i].resize(4);
+            knots[i][0] = bounds.getFrom()[i];
+            knots[i][1] = anchor->getBounds().getFrom()[i];
+            knots[i][2] = anchor->getBounds().getTo()[i];
+            knots[i][3] = bounds.getTo()[i];
+            if(knots[i][0]==knots[i][1]) {
+                knots[i][0] -= knots[i][2] - knots[i][1];
+            }
+            if(knots[i][2]==knots[i][3]) {
+                knots[i][3] += knots[i][2] - knots[i][1];
+            }
+        }
+    }
+    ~IGANode(){}
+    const auto& getBounds() const {
+        return bounds;
+    }
+    const auto& getAnchorElement() const {
+        return anchor;
+    }
+    const auto& getAnchor() const {
+        return anchor->getBounds();
+    }
+    
+    double getValue(const double x[]) const {
+        double ret = 1;
+        FOR(i, DIMS) {
+            ret *= calcBSpline(x[i], knots[i]);
+        }
+        return ret;
+    }
+    double getKnot(int dim, int i) const {
+        return knots[dim][i];
+    }
+};
+
+template<int DIMS>
+class IGANode<3, DIMS> : public Node<DIMS>{
+    using Element = Element<DIMS>;
+    CellId<DIMS> anchor;
+    CellId<DIMS> bounds;
+    
+public:
+    IGANode(const CellId<DIMS>& anchor, const Mesh<DIMS>& mesh):anchor(anchor), bounds(CellId<DIMS>::null()) {
+        //TODO
+        
+        
     }
     ~IGANode(){}
     const auto& getBounds() const {
@@ -48,5 +95,24 @@ public:
         return anchor;
     }
 };
+
+
+
+template <int DEG, int DIMS>
+std::ostream& operator<<(std::ostream& os,
+                         const IGANode<DEG,DIMS>& node) {
+    
+    
+    os << "IGA[";
+    os << node.getAnchor();
+    FOR(i, DIMS) {
+        os << ":";
+        FOR(j, DEG+2) {
+            os << node.getKnot(i,j) <<",";
+        }
+        
+    }
+    return os << ']';
+}
 
 #endif /* IGANode_hpp */

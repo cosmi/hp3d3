@@ -22,4 +22,8 @@ std::string toString(const T& t, bool *ok = NULL)
 
 bool isPowerOfTwo(dim_t n);
 
+inline bool isZero(double x) {
+    return x < 10e-20 && x > -10e-20;
+}
+
 #endif /* helpers_hpp */

@@ -13,10 +13,10 @@
 #include <list>
 
 template<int DIMS, class Node>
-std::list<Node> generateElementBasedNodes(const Mesh<DIMS>& mesh) {
-    std::list<Node> ret;
+std::list<Node*> generateElementBasedNodes(const Mesh<DIMS>& mesh) {
+    std::list<Node*> ret;
     for(auto el: mesh.getElements()) {
-        ret.emplace_front(Node(el, mesh));
+        ret.emplace_front(new Node(el, mesh));
     }
     return ret;
 }

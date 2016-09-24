@@ -86,8 +86,8 @@ public:
         canvas.openArrowGroup();
         
         for(auto el: node.getSupport()) {
-            if(el == node.getAnchor()) continue;
-            canvas.drawLine(projection(el->getBounds()), projection(node.getAnchor()->getBounds()));
+            if(el->getBounds() == node.getAnchor()) continue;
+            canvas.drawLine(projection(el->getBounds()), projection(node.getAnchor()));
         }
         canvas.closeGroup();
 //        canvas.openGroup("stroke", "rgba(0,255,0,0.5)");
@@ -131,8 +131,9 @@ void renderAndOpen(const Mesh<2>& mesh, const NodeSet& nodes, const char* filena
     std::string s = filename?filename:getTmpCanvasFilename();
     SVGRenderer<2> r(s.c_str(), mesh.getBounds());
     r.drawMesh(mesh);
-    for(auto& node: nodes) {
-        r.drawNode(node);
+    for(auto node: nodes.getNodes()) {
+        auto n = dynamic_cast<IGANode<2, 2>*>(node);
+        if(node!=nullptr) r.drawNode(*n);
     }
     r.close();
     r.openImage();

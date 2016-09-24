@@ -15,6 +15,8 @@
 		D3CF981C1D8F0FE50097CCC9 /* SVGHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3CF981A1D8F0FE50097CCC9 /* SVGHelpers.cpp */; };
 		D3CF981F1D9089E30097CCC9 /* helpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3CF981D1D9089E30097CCC9 /* helpers.cpp */; };
 		D3CF98231D9692400097CCC9 /* IGANode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3CF98211D9692400097CCC9 /* IGANode.cpp */; };
+		D3CF98281D96BE7E0097CCC9 /* BSpline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3CF98261D96BE7E0097CCC9 /* BSpline.cpp */; };
+		D3CF982B1D96F8180097CCC9 /* NodeSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3CF98291D96F8180097CCC9 /* NodeSet.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -58,6 +60,10 @@
 		D3CF98221D9692400097CCC9 /* IGANode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = IGANode.hpp; sourceTree = "<group>"; };
 		D3CF98241D96A33F0097CCC9 /* nodeBuilders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nodeBuilders.h; sourceTree = "<group>"; };
 		D3CF98251D96A6570097CCC9 /* MapCollection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapCollection.h; sourceTree = "<group>"; };
+		D3CF98261D96BE7E0097CCC9 /* BSpline.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BSpline.cpp; sourceTree = "<group>"; };
+		D3CF98271D96BE7E0097CCC9 /* BSpline.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BSpline.hpp; sourceTree = "<group>"; };
+		D3CF98291D96F8180097CCC9 /* NodeSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NodeSet.cpp; sourceTree = "<group>"; };
+		D3CF982A1D96F8180097CCC9 /* NodeSet.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NodeSet.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +123,10 @@
 				D3CF98151D8F0C740097CCC9 /* SVGRenderer.h */,
 				0D8531B81CD3B3BF009750B5 /* test.cpp */,
 				0D8531B91CD3B3BF009750B5 /* test.h */,
+				D3CF98261D96BE7E0097CCC9 /* BSpline.cpp */,
+				D3CF98271D96BE7E0097CCC9 /* BSpline.hpp */,
+				D3CF98291D96F8180097CCC9 /* NodeSet.cpp */,
+				D3CF982A1D96F8180097CCC9 /* NodeSet.hpp */,
 			);
 			path = "HP-spline";
 			sourceTree = "<group>";
@@ -177,6 +187,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3CF982B1D96F8180097CCC9 /* NodeSet.cpp in Sources */,
 				0D8531AB1CD138C6009750B5 /* main.cpp in Sources */,
 				D3CF981F1D9089E30097CCC9 /* helpers.cpp in Sources */,
 				D3CF98131D8F02E00097CCC9 /* SVGCanvas.cpp in Sources */,
@@ -184,6 +195,7 @@
 				0D8531BA1CD3B3BF009750B5 /* test.cpp in Sources */,
 				D3CF98191D8F0F8B0097CCC9 /* projections.cpp in Sources */,
 				D3CF981C1D8F0FE50097CCC9 /* SVGHelpers.cpp in Sources */,
+				D3CF98281D96BE7E0097CCC9 /* BSpline.cpp in Sources */,
 				D3CF98161D8F0C740097CCC9 /* SVGRenderer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

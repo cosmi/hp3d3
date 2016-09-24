@@ -21,6 +21,8 @@
 
 #include "BSpline.hpp"
 #include "NodeSet.hpp"
+#include "SparseMatrix.hpp"
+
 
 //void testBSpline() {
 //    std::vector<double> knots({1,2,5});
@@ -33,10 +35,25 @@
 int main(int argc, const char * argv[]) {
 //    testBSpline();
 //    testCanvas();
+    using namespace std;
+    SparseMatrix<> sm;
     
+    sm.set(0,0,2);
+    sm.set(0,1,1);
+    sm.set(1,0,1);
+    sm.set(1,1,1.5);
+    sm.set(0,2,5);
+    sm.set(1,2,3.5);
+    sm.print(cout,0,1,0,2);
+    cout << "!!!" << endl;
+    sm.eliminate(2);
+    sm.print(cout,0,1,0,2);
+    cout << "!!!" << endl;
+    
+    return 0;
     
     selfTest();
-    using namespace std;
+    
     const int DIMS = 2;
     Mesh<DIMS> m(CellId<DIMS>({0,0,0},{16,16,16}));
 //    for(int i = 0; i< 16; i++) {

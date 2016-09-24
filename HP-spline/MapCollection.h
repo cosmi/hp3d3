@@ -53,4 +53,5 @@ MapCollection<Filter, Collection> mapping(const Collection& coll, const Filter& 
 }
 
 
+
 #endif /* MapCollection_h */

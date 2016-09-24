@@ -26,4 +26,10 @@ inline bool isZero(double x) {
     return x < 10e-20 && x > -10e-20;
 }
 
+template<class Type>
+Type abs(const Type& a) {
+    if(a<0) return -a;
+    return a;
+}
+
 #endif /* helpers_hpp */

@@ -34,7 +34,7 @@ public:
     }
     
     void substractRow(RowIdx what, RowIdx from, Val factor) {
-        std::cout << "SUBS " << what << " from " << from << " by " << factor << std::endl;
+//        std::cout << "SUBS " << what << " from " << from << " by " << factor << std::endl;
         auto& row = rows[what];
         auto& target = rows[from];
         
@@ -51,6 +51,20 @@ public:
             ColIdx colId = colIt.first;
             set(rowId, colId, colIt.second*factor);
         }
+    }
+    
+    Map<ColIdx, Val> getResults(ColIdx offCol) const {
+        Map<ColIdx, Val> result;
+        auto& lastCol = cols.find(offCol)->second;
+        for(auto colIt: cols) if(colIt.first != offCol) {
+            for(auto rowIt: colIt.second) {
+                if(!isZero(rowIt.second)) {
+                    result[colIt.first] = lastCol.find(rowIt.first)->second/rowIt.second;
+                }
+            }
+        }
+        assert(result.size() == cols.size()-1);
+        return result;
     }
     
     void eliminate(ColIdx col) {

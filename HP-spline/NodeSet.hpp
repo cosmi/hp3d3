@@ -10,6 +10,7 @@
 #define NodeSet_hpp
 
 #include "Helpers.hpp"
+#include "GeometryHelpers.hpp"
 #include "Node.h"
 #include "Mesh.h"
 #include <unordered_map>
@@ -44,10 +45,12 @@ public:
     }
     
     void setNodeValue(Node* node, double value) {
-        nodes[node] = value;
+        auto tgt = nodes.find(node);
+        assert(tgt != nodes.end());
+        tgt->second = value;
     }
     
-    double getValue(const double x[]) {
+    double getValue(const Coordinate<DIMS>& x) {
         double v = 0;
         double div = 0;
         for(auto p: nodes) {
@@ -58,7 +61,7 @@ public:
         return v/div;
     }
     
-    std::vector<std::pair<Node*, double> >  getLinearDeps(const double x[]) {
+    std::vector<std::pair<Node*, double> >  getLinearDeps(const Coordinate<DIMS>& x) {
         std::vector<std::pair<Node*, double> > ret;
         for(auto p: nodes) {
             double v = p.first->getValue(x);
@@ -70,6 +73,9 @@ public:
     }
     auto getNodes() const {
         return mapping(nodes, [](auto p){return p.first;});
+    }
+    const Mesh& getMesh() const {
+        return mesh;
     }
 };
 

@@ -22,6 +22,7 @@
 #include "BSpline.hpp"
 #include "NodeSet.hpp"
 #include "SparseMatrix.hpp"
+#include "UniversalSolver.hpp"
 
 
 //void testBSpline() {
@@ -36,21 +37,21 @@ int main(int argc, const char * argv[]) {
 //    testBSpline();
 //    testCanvas();
     using namespace std;
-    SparseMatrix<> sm;
-    
-    sm.set(0,0,2);
-    sm.set(0,1,1);
-    sm.set(1,0,1);
-    sm.set(1,1,1.5);
-    sm.set(0,2,5);
-    sm.set(1,2,3.5);
-    sm.print(cout,0,1,0,2);
-    cout << "!!!" << endl;
-    sm.eliminate(2);
-    sm.print(cout,0,1,0,2);
-    cout << "!!!" << endl;
-    
-    return 0;
+//    SparseMatrix<> sm;
+//    
+//    sm.set(0,0,2);
+//    sm.set(0,1,1);
+//    sm.set(1,0,1);
+//    sm.set(1,1,1.5);
+//    sm.set(0,2,5);
+//    sm.set(1,2,3.5);
+//    sm.print(cout,0,1,0,2);
+//    cout << "!!!" << endl;
+//    sm.eliminate(2);
+//    sm.print(cout,0,1,0,2);
+//    cout << "!!!" << endl;
+//    
+//    return 0;
     
     selfTest();
     
@@ -96,7 +97,7 @@ int main(int argc, const char * argv[]) {
     }
     
     renderAndOpen(m, nset);
-    
+    solveWithMidpoints(nset, [](const Coordinate<DIMS>&x) {return 1/(x[0]+x[1]+1);});
     
     
 //    for(double i = testnode->getKnot(0,0); i<= testnode->getKnot(0,3); i+=0.2) {
@@ -104,7 +105,7 @@ int main(int argc, const char * argv[]) {
 //        cout << i << ":\t";
 //        for(double j = testnode->getKnot(1,0); j<= testnode->getKnot(1,3); j+=0.2) {
         for(double j = 0; j<= 4.01; j+=0.2) {
-            double x[]={i,j};
+            Coordinate<DIMS> x{i,j};
 //            auto&& deps = nset.getLinearDeps(x);
 //            double dep = 0;
 //            for(auto& p: deps) {

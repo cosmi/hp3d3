@@ -8,8 +8,8 @@
 
 #ifndef BSpline_hpp
 #define BSpline_hpp
-#include <vector>
 
+#include <vector>
 double calcBSpline(double x, const std::vector<double>& knots);
 
 #endif /* BSpline_hpp */

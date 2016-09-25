@@ -53,17 +53,17 @@ public:
         }
     }
     ~IGANode(){}
-    const auto& getBounds() const {
+    CellId<DIMS> getBounds() const {
         return bounds;
     }
     const auto& getAnchorElement() const {
         return anchor;
     }
-    const auto& getAnchor() const {
+    CellId<DIMS> getAnchor() const {
         return anchor->getBounds();
     }
     
-    double getValue(const double x[]) const {
+    double getValue(const Coordinate<DIMS>& x) const {
         double ret = 1;
         FOR(i, DIMS) {
             ret *= calcBSpline(x[i], knots[i]);
@@ -88,10 +88,10 @@ public:
         
     }
     ~IGANode(){}
-    const auto& getBounds() const {
+    CellId<DIMS> getBounds() const {
         return bounds;
     }
-    const auto& getAnchor() const {
+    CellId<DIMS> getAnchor() const {
         return anchor;
     }
 };

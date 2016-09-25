@@ -32,4 +32,6 @@ Type abs(const Type& a) {
     return a;
 }
 
+
+
 #endif /* helpers_hpp */

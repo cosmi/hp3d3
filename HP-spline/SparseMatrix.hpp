@@ -8,6 +8,7 @@
 
 #ifndef SparseMatrix_hpp
 #define SparseMatrix_hpp
+#include "defs.h"
 #include <iostream>
 #include <map>
 #include <unordered_set>
@@ -19,10 +20,31 @@ class SparseMatrix {
     using Map = std::map<a,b>;
     Map<RowIdx, Map<ColIdx, Val> > rows;
     Map<ColIdx, Map<RowIdx, Val> > cols;
+    int64_t setCount = 0;
 public:
     void set(RowIdx row, ColIdx col, Val val) {
+        ++setCount;
         rows[row][col] = val;
         cols[col][row] = val;
+    }
+    const auto& getSetCount() const {
+        return setCount;
+    }
+    const size_t getRowsCount() const {
+        return rows.size();
+    }
+    const size_t getColsCount() const {
+        return cols.size();
+    }
+    const size_t getSetFieldsCount() const {
+        size_t res = 0;
+        for(auto rowIt: rows) {
+            res += rowIt.second.size();
+        }
+        return res;
+    }
+    void resetSetCount(int64_t val = 0) {
+        setCount = val;
     }
     
     Val get(RowIdx row, ColIdx col) const {
@@ -57,11 +79,15 @@ public:
         Map<ColIdx, Val> result;
         auto& lastCol = cols.find(offCol)->second;
         for(auto colIt: cols) if(colIt.first != offCol) {
+            
+            double largest = 0;
             for(auto rowIt: colIt.second) {
-                if(!isZero(rowIt.second)) {
+                if(rowIt.second > largest && !isZero(rowIt.second)) {
                     result[colIt.first] = lastCol.find(rowIt.first)->second/rowIt.second;
+                    largest = rowIt.second;
                 }
             }
+            assert(largest > 0.99 && largest < 1.01);
         }
         assert(result.size() == cols.size()-1);
         return result;
@@ -85,11 +111,14 @@ public:
                     first = false;
                 }
             }
-            
-            for(auto rowIt: colIt.second) if(rowIt.first != maxRowId) {
-                substractRow(maxRowId, rowIt.first, rowIt.second/maxVal);
-            }
             multiplyRow(maxRowId, 1/maxVal);
+            for(auto rowIt: colIt.second) if(rowIt.first != maxRowId) {
+//                std::cout << "subs " << maxRowId << " " << rowIt.first << " by " << rowIt.second/maxVal << std::endl;
+                substractRow(maxRowId, rowIt.first, rowIt.second);
+            }
+            
+//            print(std::cout, nullptr);
+            
             eliminated_rows.insert(maxRowId);
         }
     }
@@ -114,6 +143,33 @@ public:
             }
         }
     }
+    
+    template<class ostream>
+    void print(ostream& os, ColIdx firstCol) {
+//        for(auto colIt : cols) if(colIt.first != firstCol){
+//            os << colIt.first->getAnchor() << '\n';
+//        }
+        for(auto rowIt: rows) {
+            os << get(rowIt.first, firstCol) << '\t';
+            for(auto colIt : cols) if(colIt.first != firstCol){
+                //                os<<row << ',' <<col<<':';
+                os << get(rowIt.first, colIt.first) << '\t';
+            }
+            os << '\n';
+        }
+//        for(auto colIt: cols) {
+//            for(auto rowIt: colIt.second) {
+//                os << rowIt.first << ',' << colIt.first <<':' << rowIt.second <<'\n';
+//            }
+//        }
+        os<<"!#\n";
+//        for(auto rowIt: rows) {
+//            for(auto colIt: rowIt.second) {
+//                os << rowIt.first << ',' << colIt.first <<':' << colIt.second <<'\n';
+//            }
+//        }
+    }
+
     
 };
 

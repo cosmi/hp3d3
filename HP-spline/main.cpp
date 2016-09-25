@@ -57,11 +57,11 @@ int main(int argc, const char * argv[]) {
     
     const int DIMS = 2;
     Mesh<DIMS> m(CellId<DIMS>({0,0,0},{16,16,16}));
-//    for(int i = 0; i< 16; i++) {
-//        for(int j = 0; j<16; j++) {
-//            refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({i,j,4}, {i+1,j+1,8}));
-//        }
-//    }
+    for(int i = 0; i< 16; i++) {
+        for(int j = 0; j<16; j++) {
+            refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({i,j,4}, {i+1,j+1,8}));
+        }
+    }
     refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({0,0}, {1,1}));
 //    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({4,4,4}, {8,8,8}));
 //    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({8,8,8}, {12,12,12}));
@@ -97,14 +97,15 @@ int main(int argc, const char * argv[]) {
     }
     
     renderAndOpen(m, nset);
-    solveWithMidpoints(nset, [](const Coordinate<DIMS>&x) {return 1/(x[0]+x[1]+1);});
+    auto fun = [](const Coordinate<DIMS>&x) {return 1.;/*/(x[0]+x[1]+1);*/};
+    solveWithMidpoints(nset, fun);
     
     
 //    for(double i = testnode->getKnot(0,0); i<= testnode->getKnot(0,3); i+=0.2) {
-    for(double i = 0; i<= 16.01; i+=0.2) {
+    for(double i = 0.0; i<= 16.01; i+=0.5) {
 //        cout << i << ":\t";
 //        for(double j = testnode->getKnot(1,0); j<= testnode->getKnot(1,3); j+=0.2) {
-        for(double j = 0; j<= 4.01; j+=0.2) {
+        for(double j = 0.0; j<= 4.01; j+=0.5) {
             Coordinate<DIMS> x{i,j};
 //            auto&& deps = nset.getLinearDeps(x);
 //            double dep = 0;
@@ -119,7 +120,7 @@ int main(int argc, const char * argv[]) {
 //                cout << endl;
 //            }
             
-            cout << nset.getValue(x) << "\t";
+            cout << nset.getValue(x)-fun(x) << "\t";
         }
         cout << endl;
     }

@@ -10,6 +10,7 @@
 #define HP3d_types_h
 
 #include <sstream>
+#include <cassert>
 
 using dim_t = long long int;
 using result_t = long long int;

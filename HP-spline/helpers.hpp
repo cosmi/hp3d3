@@ -7,8 +7,14 @@
 //
 
 #include "defs.h"
+#include <iostream>
+#include <ctime>
 #ifndef helpers_hpp
 #define helpers_hpp
+
+inline void clockTick(const std::string& s) {
+    std::cout << "CLOCK " << clock() << ":"  << s << std::endl;
+}
 
 template<class T>
 std::string toString(const T& t, bool *ok = NULL)

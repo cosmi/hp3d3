@@ -42,17 +42,30 @@ void solveWithSamples(NodeSet<DIMS>& nset, const SampleColl& samples) {
         sm.set(sampleIdx, nullptr, s.val);
         sampleIdx++;
     }
-    
+    sm.resetSetCount();
+//    sm.print(std::cout, nullptr);
+    clockTick("Elimiate start");
     sm.eliminate(nullptr);
+    clockTick("Elimiate end");
+//    std::cout << "#\n";
+//    sm.print(std::cout, nullptr);
+//    std::cout << "#\n\n";
+    
     auto results = sm.getResults(nullptr);
     for(auto it: results) {
         nset.setNodeValue(it.first, it.second);
     }
+    std::cout << "OPs:  \t" << sm.getSetCount() << std::endl;
+    std::cout << "Rows: \t " << sm.getRowsCount() << std::endl;
+    std::cout << "Cols: \t" << sm.getColsCount() << std::endl;
+    auto touch = sm.getSetFieldsCount();
+    auto dims = sm.getRowsCount()*sm.getColsCount();
+    std::cout << "Touched:\t" << touch <<"/" << dims << " (" << touch/dims << ")" << std::endl;
 }
 
 template <class Function, int DIMS>
 void solveWithMidpoints(NodeSet<DIMS>& nset, const Function& fun) {
-    const Mesh<DIMS>& mesh = nset.getMesh();
+//    const Mesh<DIMS>& mesh = nset.getMesh();
     
     
     std::vector<Sample<DIMS>> samples;

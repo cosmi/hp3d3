@@ -10,6 +10,23 @@
 
 
 void drawAllStuff() {
+    
+    //refinement steps
+    {
+        Mesh<3> m(CellId<3>::cube(8));
+        renderAndOpen(m, "/tmp/Refinement1.svg", true);
+        for(int i = 0; i<8; i+=4) {
+            refineMeshUntilBoundsByQuadDivisions(m, CellId<3>({0,i,0}, {4, i+4,4}));
+        }
+        renderAndOpen(m, "/tmp/Refinement2.svg", true);
+        for(int i = 0; i<8; i+=2) {
+            refineMeshUntilBoundsByQuadDivisions(m, CellId<3>({0,i,0}, {2, i+2,2}));
+        }
+        renderAndOpen(m, "/tmp/Refinement3.svg", true);
+    }
+    
+    
+    
     //point singularity 2D
     {
         Mesh<2> m(CellId<2>({0,0},{8, 8}));

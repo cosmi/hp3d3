@@ -192,5 +192,43 @@ bool verifyNeighborGraphIntegrity(const Mesh<DIMS>& mesh) {
     return true;
 }
 
+template<int DIMS>
+bool enforceSecondNeiborDifference(Mesh<DIMS>& mesh) {
+    auto bounds = mesh.getBounds();
+    assert(bounds.isCube());
+    dim_t maxSize = bounds.getSize()[0];
+    
+    for(int size = 1; size<=maxSize; size++) {
+        std::set<Element<DIMS>*>S;
+        std::set<Element<DIMS>*>S1;
+        std::set<Element<DIMS>*>S2;
+        for(auto el : mesh.getElements()) if(el->getBounds().getSize()[0] == size) {
+            S.insert(el);
+        }
+        
+        while(!S.empty()) {
+            auto el = *S.begin();
+            S.erase(S.begin());
+            auto nei = el->getCornerNeighbors();
+            S1.insert(nei.begin(), nei.end());
+        }
+        while(!S1.empty()) {
+            auto el = *S1.begin();
+            S1.erase(S1.begin());
+            auto nei = el->getCornerNeighbors();
+            S2.insert(nei.begin(), nei.end());
+            S2.insert(el);
+        }
+        for(auto el: S2) {
+            if(el->getBounds().getSize()[0]>2*size) {
+                assert(el->getBounds().getSize()[0]==4*size);
+                mesh.splitInAllDims(el);
+            }
+        }
+    }
+    
+    return true;
+}
+
 
 #endif /* meshBuilders_h */

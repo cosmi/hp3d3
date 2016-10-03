@@ -23,4 +23,39 @@ void drawAllStuff() {
         refineMeshUntilBoundsByQuadDivisions(m, CellId<3>::unit());
         renderAndOpen(m, "/tmp/PointSingularity3D.svg", true);
     }
+    
+    //point singularity 4D
+    {
+        Mesh<4> m(CellId<4>::cube(8));
+        refineMeshUntilBoundsByQuadDivisions(m, CellId<4>({0,0,0,7},{1,1,1,8}));
+        renderAndOpen(m, "/tmp/PointSingularity4D.svg");
+    }
+    
+    //edge singularity 2D
+    {
+        Mesh<2> m(CellId<2>({0,0},{8, 8}));
+        FOR(i, 8) {
+            refineMeshUntilBoundsByQuadDivisions(m, CellId<2>({0,i}, {1, i+1}));
+        }
+        renderAndOpen(m, "/tmp/EdgeSingularity2D.svg");
+    }
+    
+    //point singularity 3D
+    {
+        Mesh<3> m(CellId<3>::cube(8));
+        FOR(i, 8) {
+            refineMeshUntilBoundsByQuadDivisions(m, CellId<3>({0,i,0}, {1, i+1,1}));
+        }
+        renderAndOpen(m, "/tmp/EdgeSingularity3D.svg", true);
+    }
+    
+    //point singularity 4D
+    {
+        Mesh<4> m(CellId<4>::cube(8));
+        FOR(i, 8) {
+            refineMeshUntilBoundsByQuadDivisions(m, CellId<4>({0,i,0,7}, {1, i+1,1,8}));
+        }
+        renderAndOpen(m, "/tmp/EdgeSingularity4D.svg");
+    }
+
 }

@@ -35,6 +35,17 @@ std::pair<SVGPoint, SVGPoint> calculateBounds(const CellId<DIMS>& cid, const Pro
     }
     return std::make_pair(ptMin, ptMax);
 }
+template<> std::pair<SVGPoint, SVGPoint> calculateBounds<4, PerspectiveProjection> (const CellId<4>& cid, const PerspectiveProjection& p);
+
+
+template<int DIMS>
+bool isFasade(const CellId<DIMS>& line) {
+    bool fasade = false;
+    FOR(i, DIMS) {
+        if(line.getFrom()[i] == 0 && line.getTo()[i] == 0) fasade = true;
+    }
+    return fasade;
+}
 
 template<int DIMS, class Projection = IdentityProjection, class SVGCanvas = SVGCanvas<> >
 class SVGRenderer {
@@ -58,11 +69,7 @@ public:
         canvas.writeComment("bounds " + toString(bounds));
         auto lines = bounds.getLowerDimensionalityBounds(1);
         for(auto & line: lines) {
-            bool fasade = false;
-            FOR(i, DIMS) {
-                if(line.getFrom()[i] == 0 && line.getTo()[i] == 0) fasade = true;
-            }
-            if(!onlyFasade || fasade) {
+            if(!onlyFasade || isFasade(line)) {
                 drawCellDiagonal(line);
             }
         }
@@ -86,6 +93,37 @@ public:
         }
 //        canvas.closeGroup();
     }
+    
+    void drawBounds4D(const CellId<DIMS>& bounds, const SVGPoint offset, int remDim) {
+        canvas.writeComment("bounds4D " + toString(bounds));
+        auto lines = bounds.getLowerDimensionalityBounds(1);
+        for(auto & line: lines) if(isFasade(line)) {
+            auto l1 = line.removeDimension(remDim);
+            if(l1.getDimensionality() == 1 && isFasade(l1) ) {
+                canvas.drawLine(projection(l1.getFrom()) + offset, projection(l1.getTo()) + offset);
+            }
+        }
+        
+        //        canvas.drawPoint(projection(bounds));
+    }
+    void drawMesh4D(const Mesh<DIMS>& mesh) {
+        canvas.openGroup("stroke", "black");
+        
+        
+        auto bounds = calculateBounds(mesh.getBounds(), Projection());
+        SVGPoint offset((bounds.second.x - bounds.first.x)/2, (bounds.second.y - bounds.first.y)/2);
+        
+        for(auto& element : mesh.getElements()) {
+            FOR(i, DIMS) {
+                drawBounds4D(element->getBounds(), SVGPoint(i&1?offset.x:0, i==1||i==2?0:offset.y), i);
+            }
+        }
+        
+        
+        canvas.closeGroup();
+        
+    }
+    
     template<int DEG>
     void drawNode(const IGANode<DEG, DIMS>& node) {
 //        canvas.openGroup("stroke", "rgba(255,0,0,0.5)");
@@ -131,6 +169,7 @@ std::string getTmpCanvasFilename();
 void renderAndOpen(const Mesh<2>& mesh, const char* filename=nullptr);
 
 void renderAndOpen(const Mesh<3>& mesh, const char* filename=nullptr, bool onlyFasade=false);
+void renderAndOpen(const Mesh<4>& mesh, const char* filename=nullptr);
 
 template<class NodeSet>
 void renderAndOpen(const Mesh<2>& mesh, const NodeSet& nodes, const char* filename=nullptr) {

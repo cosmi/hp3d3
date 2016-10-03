@@ -57,6 +57,7 @@ int main(int argc, const char * argv[]) {
 //    return 0;
     
     selfTest();
+    return 0;
     
     const int DIMS = 2;
     const int SIZE = 16*4;

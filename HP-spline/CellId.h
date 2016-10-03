@@ -46,6 +46,11 @@ public:
         }
         return id;
     }
+    
+    CellId<DIMS-1> removeDimension(size_t dim) const {
+        return CellId<DIMS-1>(from.removeDimension(dim), to.removeDimension(dim));
+    }
+    
     bool isValid() const {
         FOR(i, DIMS) {
             if(from[i] > to[i]) return false;

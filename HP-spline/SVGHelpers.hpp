@@ -12,6 +12,10 @@
 struct SVGPoint {
     double x, y;
     SVGPoint(double x, double y): x(x), y(y) {}
+    
+    SVGPoint operator+ (const SVGPoint& p) const {
+        return SVGPoint(x + p.x, y + p.y);
+    }
 };
 
 struct SVGLine {

@@ -46,6 +46,7 @@ struct PerspectiveProjection {
         double x, y, z;
         Coords(double x, double y, double z):x(x),y(y), z(z){}
         Coords(const Point<3>&pt):x(pt[0]), y(pt[1]), z(pt[2]){};
+        Coords(const Point<4>&pt):x(pt[0]), y(pt[1]), z(pt[2]){};
         Coords() = delete;
     } camera, angle;
     PerspectiveProjection():camera(-15,-20, -40), angle(0,0,0) {}
@@ -69,6 +70,12 @@ struct PerspectiveProjection {
         return SVGPoint(bx, by);
     }
     SVGPoint operator()(const CellId<3>& cellId) {
+        return operator()(Coords(
+                                 (cellId.getTo()[0]+cellId.getFrom()[0])/2.,
+                                 (cellId.getTo()[1]+cellId.getFrom()[1])/2.,
+                                 (cellId.getTo()[2]+cellId.getFrom()[2])/2.));
+    }
+    SVGPoint operator()(const CellId<4>& cellId) {
         return operator()(Coords(
                                  (cellId.getTo()[0]+cellId.getFrom()[0])/2.,
                                  (cellId.getTo()[1]+cellId.getFrom()[1])/2.,

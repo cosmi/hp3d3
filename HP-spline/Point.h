@@ -110,6 +110,15 @@ public:
     void set(size_t dim, dim_t value) {
         dims[dim] = value;
     }
+    friend class PointBase<DIMS+1>;
+    PointBase<DIMS-1> removeDimension(size_t dim) const {
+        PointBase<DIMS-1> ret;
+        FOR(i, DIMS-1) {
+            ret.dims[i] = (i == dim?dims[DIMS-1]:dims[i]);
+        }
+        return ret;
+    }
+    
 };
 
 template<int DIMS>
@@ -166,6 +175,9 @@ public:
         Point p = *this;
         p.dims[dimension] = value;
         return p;
+    }
+    Point<DIMS-1> removeDimension(size_t dim) const {
+        return Point<DIMS-1>(PointBase<DIMS>::removeDimension(dim));
     }
 };
 
@@ -309,6 +321,10 @@ public:
         FOR(i, DIMS) if(PointBase::dims[i] > 0) m|=(1<<i);
         return m;
     }
+    PointDifference<DIMS-1> removeDimension(size_t dim) const {
+        return PointDifference<DIMS-1>(PointBase::removeDimension(dim));
+    }
+
 };
 
 

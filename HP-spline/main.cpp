@@ -57,12 +57,12 @@ int main(int argc, const char * argv[]) {
     
     const int DIMS = 2;
     Mesh<DIMS> m(CellId<DIMS>({0,0,0},{16,16,16}));
-    for(int i = 0; i< 16; i++) {
-        for(int j = 0; j<16; j++) {
-            refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({i,j,4}, {i+1,j+1,8}));
-        }
-    }
-    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({0,0}, {1,1}));
+//    for(int i = 0; i< 16; i++) {
+//        for(int j = 0; j<16; j++) {
+//            refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({i,j,4}, {i+1,j+1,8}));
+//        }
+//    }
+    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({0,0}, {8,8}));
 //    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({4,4,4}, {8,8,8}));
 //    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({8,8,8}, {12,12,12}));
     assert(isQuadLikeMesh(m));

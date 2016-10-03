@@ -32,7 +32,8 @@ public:
     IGANode(Element* anchor, const Mesh<DIMS>& mesh):anchor(anchor), bounds(CellId<DIMS>::null()) {
         // This works only on quadlike, tau-rule meshes:
         auto neibors = mapping(anchor->getNeighbors(), [](Element* el){return el->getBounds();});
-        bounds = CellId<DIMS>::getBounds(neibors.begin(), neibors.end());
+        bounds = neibors.begin() != neibors.end()?CellId<DIMS>::getBounds(neibors.begin(), neibors.end()): anchor->getBounds();
+        bounds = CellId<DIMS>::getBounds(bounds, anchor->getBounds());
         auto supp = mesh.getAllElementsInBounds(bounds, anchor);
         
         Node<DIMS>::support.insert(supp.begin(), supp.end());

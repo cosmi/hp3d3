@@ -63,6 +63,7 @@ public:
     
     std::vector<std::pair<Node*, double> >  getLinearDeps(const Coordinate<DIMS>& x) {
         std::vector<std::pair<Node*, double> > ret;
+        
         for(auto p: nodes) {
             double v = p.first->getValue(x);
             if(!isZero(v)) {

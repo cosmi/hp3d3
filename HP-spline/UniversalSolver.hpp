@@ -53,13 +53,13 @@ void solveWithSamples(NodeSet<DIMS>& nset, const SampleColl& samples) {
     }
     renderAndOpen(sm);
     sm.resetSetCount();
-//    sm.print(std::cout, nullptr);
+    sm.print(std::cout, nullptr);
     clockTick("Elimiate start");
     sm.eliminate(nullptr);
     clockTick("Elimiate end");
-//    std::cout << "#\n";
-//    sm.print(std::cout, nullptr);
-//    std::cout << "#\n\n";
+    std::cout << "#\n";
+    sm.print(std::cout, nullptr);
+    std::cout << "#\n\n";
     renderAndOpen(sm);
     auto results = sm.getResults(nullptr);
     for(auto it: results) {

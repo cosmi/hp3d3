@@ -63,13 +63,18 @@ public:
     
     std::vector<std::pair<Node*, double> >  getLinearDeps(const Coordinate<DIMS>& x) {
         std::vector<std::pair<Node*, double> > ret;
-        
+        double total = 0;
         for(auto p: nodes) {
             double v = p.first->getValue(x);
             if(!isZero(v)) {
+                total+=v;
                 ret.push_back(std::make_pair(p.first, v));
             }
         }
+        for(auto it = ret.begin(); it!= ret.end(); it++) {
+            it->second /= total;
+        }
+
         return ret;
     }
     auto getNodes() const {

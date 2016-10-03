@@ -57,12 +57,12 @@ int main(int argc, const char * argv[]) {
     
     const int DIMS = 2;
     Mesh<DIMS> m(CellId<DIMS>({0,0,0},{16,16,16}));
-//    for(int i = 0; i< 16; i++) {
-//        for(int j = 0; j<16; j++) {
-//            refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({i,j,4}, {i+1,j+1,8}));
-//        }
-//    }
-    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({0,0}, {8,8}));
+    for(int i = 0; i< 16; i++) {
+        for(int j = 0; j<16; j++) {
+            refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({i,j,4}, {i+1,j+1,8}));
+        }
+    }
+//    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({0,0}, {8,8}));
 //    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({4,4,4}, {8,8,8}));
 //    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({8,8,8}, {12,12,12}));
     assert(isQuadLikeMesh(m));
@@ -81,9 +81,7 @@ int main(int argc, const char * argv[]) {
     for(auto n1: nset.getNodes()) {
         
         IGANode<2,DIMS>* node = dynamic_cast<IGANode<2,DIMS>*>(n1);
-        if(node->getAnchor() ==CellId<DIMS>({1,1},{2,2})) {
-            nset.setNodeValue(n1, 1);
-        }
+        nset.setNodeValue(n1, 1);
         testnode = node;
 //        FOR(i, int(DIMS)) {
 //            FOR(j, 4) {
@@ -97,7 +95,7 @@ int main(int argc, const char * argv[]) {
     }
     
     renderAndOpen(m, nset);
-    auto fun = [](const Coordinate<DIMS>&x) {return -1.;/*/(x[0]+x[1]+1);*/};
+    auto fun = [](const Coordinate<DIMS>&x) {return 1.;/*/(x[0]+x[1]+1);*/};
     solveWithMidpoints(nset, fun);
     
     

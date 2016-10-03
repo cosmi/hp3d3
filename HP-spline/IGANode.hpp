@@ -44,12 +44,12 @@ public:
             knots[i][1] = anchor->getBounds().getFrom()[i];
             knots[i][2] = anchor->getBounds().getTo()[i];
             knots[i][3] = bounds.getTo()[i];
-            if(knots[i][0]==knots[i][1]) {
-                knots[i][0] -= knots[i][2] - knots[i][1];
-            }
-            if(knots[i][2]==knots[i][3]) {
-                knots[i][3] += knots[i][2] - knots[i][1];
-            }
+//            if(knots[i][0]==knots[i][1]) {
+//                knots[i][0] -= knots[i][2] - knots[i][1];
+//            }
+//            if(knots[i][2]==knots[i][3]) {
+//                knots[i][3] += knots[i][2] - knots[i][1];
+//            }
         }
     }
     ~IGANode(){}

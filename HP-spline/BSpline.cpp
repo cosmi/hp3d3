@@ -14,11 +14,21 @@ double calcBSpline(double x, const std::vector<double>& knots, unsigned long deg
         if(x < knots[offset] || x >= knots[offset+1]) return 0;
         return 1;
     } else {
-        return (x-knots[offset])/(knots[offset+degree]-knots[offset])*calcBSpline(x,knots,degree-1, offset)
-        + (knots[offset+degree+1]-x)/(knots[offset+degree+1]-knots[offset+1])*calcBSpline(x,knots,degree-1, offset+1);
+        double val;
+        if(knots[offset+degree]>knots[offset]) {
+            val += (x-knots[offset])/(knots[offset+degree]-knots[offset])*calcBSpline(x,knots,degree-1, offset);
+        }
+        if(knots[offset+degree+1]>knots[offset+1]) {
+            val += (knots[offset+degree+1]-x)/(knots[offset+degree+1]-knots[offset+1])*calcBSpline(x,knots,degree-1, offset+1);
+        }
+        return val;
+        
+        
     }
 }
 
 double calcBSpline(double x, const std::vector<double>& knots) {
+    if(x<knots[0]) return 0;
+    if(x>knots[knots.size()-1]) return 0;
     return calcBSpline(x, knots, knots.size()-2ul, 0);
 }

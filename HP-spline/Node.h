@@ -39,6 +39,22 @@ public:
 //    }
     virtual CellId<DIMS> getAnchor() const = 0;
     virtual CellId<DIMS> getBounds() const = 0;
+    
+    bool operator<(const Node& node) const {
+        auto a1 = getAnchor();
+        auto a2 = node.getAnchor();
+        FOR(i, DIMS) {
+            if(a1.getFrom()[i] != a2.getFrom()[i]) {
+                return a1.getFrom()[i] < a2.getFrom()[i];
+            }
+        }
+        FOR(i, DIMS) {
+            if(a1.getTo()[i] != a2.getTo()[i]) {
+                return a1.getTo()[i] < a2.getTo()[i];
+            }
+        }
+        return false;
+    }
 };
 
 

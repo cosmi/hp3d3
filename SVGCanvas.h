@@ -111,6 +111,10 @@ public:
     void writeComment(const string & s){
         os << "<!--" << s << "-->" << std::endl;
     }
+    
+    void drawRectangle(const SVGPoint& p1, const SVGPoint& p2) {
+        os << "<rect" << ATTR2("x", p1.x) << ATTR2("y", p1.y) << ATTR2("width", p2.x-p1.x) << ATTR2("height", p2.y-p1.y) << "/>" << std::endl;
+    }
 };
 
 #endif /* SVGCanvas_h */

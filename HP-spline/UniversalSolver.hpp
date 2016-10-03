@@ -13,6 +13,7 @@
 #include "NodeSet.hpp"
 #include "SparseMatrix.hpp"
 #include "GeometryHelpers.hpp"
+#include "SVGMatrixRenderer.hpp"
 
 template<int DIMS>
 struct Sample {
@@ -26,11 +27,19 @@ struct Sample {
 //        }
 //    }
 };
+template<class ptrClass>
+struct less_by_ptr{
+    bool operator()(const ptrClass& a, const ptrClass& b) const {
+        if(!a) return b;
+        if(!b) return false;
+        return *a < *b;
+    }
+};
 
 template<class SampleColl, int DIMS>
 void solveWithSamples(NodeSet<DIMS>& nset, const SampleColl& samples) {
     
-    SparseMatrix<int, Node<DIMS>*> sm;
+    SparseMatrix<int, Node<DIMS>*, double, std::less<int>, less_by_ptr<Node<DIMS>*>> sm;
     
     int sampleIdx = 0;
     for(const Sample<DIMS>& s: samples) {
@@ -42,6 +51,7 @@ void solveWithSamples(NodeSet<DIMS>& nset, const SampleColl& samples) {
         sm.set(sampleIdx, nullptr, s.val);
         sampleIdx++;
     }
+    renderAndOpen(sm);
     sm.resetSetCount();
 //    sm.print(std::cout, nullptr);
     clockTick("Elimiate start");
@@ -50,7 +60,7 @@ void solveWithSamples(NodeSet<DIMS>& nset, const SampleColl& samples) {
 //    std::cout << "#\n";
 //    sm.print(std::cout, nullptr);
 //    std::cout << "#\n\n";
-    
+    renderAndOpen(sm);
     auto results = sm.getResults(nullptr);
     for(auto it: results) {
         nset.setNodeValue(it.first, it.second);

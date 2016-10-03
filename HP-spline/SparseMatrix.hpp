@@ -12,14 +12,15 @@
 #include <iostream>
 #include <map>
 #include <unordered_set>
-template<class RowIdx = int, class ColIdx = int, class Val = double>
+#include <unordered_map>
+template<class RowIdx = int, class ColIdx = int, class Val = double, class RowCompare=std::less<RowIdx>, class ColCompare=std::less<ColIdx>  >
 class SparseMatrix {
     
     
-    template<class a, class b>
-    using Map = std::map<a,b>;
-    Map<RowIdx, Map<ColIdx, Val> > rows;
-    Map<ColIdx, Map<RowIdx, Val> > cols;
+    template<class a, class b, class c>
+    using Map = std::map<a,b,c>;
+    Map<RowIdx, Map<ColIdx, Val, ColCompare>, RowCompare> rows;
+    Map<ColIdx, Map<RowIdx, Val, RowCompare>, ColCompare> cols;
     int64_t setCount = 0;
 public:
     void set(RowIdx row, ColIdx col, Val val) {
@@ -75,8 +76,8 @@ public:
         }
     }
     
-    Map<ColIdx, Val> getResults(ColIdx offCol) const {
-        Map<ColIdx, Val> result;
+    Map<ColIdx, Val, ColCompare> getResults(ColIdx offCol) const {
+        Map<ColIdx, Val, ColCompare> result;
         auto& lastCol = cols.find(offCol)->second;
         for(auto colIt: cols) if(colIt.first != offCol) {
             
@@ -170,7 +171,29 @@ public:
 //        }
     }
 
+    const Map<ColIdx, Map<RowIdx, Val, RowCompare>, ColCompare> getCols() const {
+        return cols;
+    }
+    const Map<RowIdx, Map<ColIdx, Val, ColCompare>, RowCompare> getRows() const {
+        return rows;
+    }
     
+    std::unordered_map<RowIdx, int> getRowNumbers() const {
+        int i = 0;
+        std::unordered_map<RowIdx, int> res;
+        for(auto& row: rows) {
+            res[row.first] = i++;
+        }
+        return res;
+    }
+    std::unordered_map<ColIdx, int> getColNumbers() const {
+        int i = 0;
+        std::unordered_map<ColIdx, int> res;
+        for(auto& col: cols) {
+            res[col.first] = i++;
+        }
+        return res;
+    }
 };
 
 #endif /* SparseMatrix_hpp */

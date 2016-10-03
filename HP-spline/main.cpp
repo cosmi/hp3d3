@@ -26,9 +26,9 @@
 
 
 //void testBSpline() {
-//    std::vector<double> knots({1,2,5});
+//    std::vector<double> knots({0,0,2,4});
 //    
-//    for(double i = 0; i<7; i+=0.1) {
+//    for(double i = -1; i<5; i+=0.1) {
 //        std::cout << i << '\t' << calcBSpline(i, knots) <<std::endl;
 //    }
 //}
@@ -97,7 +97,7 @@ int main(int argc, const char * argv[]) {
     }
     
     renderAndOpen(m, nset);
-    auto fun = [](const Coordinate<DIMS>&x) {return 1.;/*/(x[0]+x[1]+1);*/};
+    auto fun = [](const Coordinate<DIMS>&x) {return -1.;/*/(x[0]+x[1]+1);*/};
     solveWithMidpoints(nset, fun);
     
     
@@ -120,7 +120,7 @@ int main(int argc, const char * argv[]) {
 //                cout << endl;
 //            }
             
-            cout << nset.getValue(x)-fun(x) << "\t";
+            cout << nset.getValue(x) << "\t";
         }
         cout << endl;
     }

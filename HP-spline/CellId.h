@@ -30,6 +30,9 @@ public:
     static CellId unit() {
         return CellId(Point::origin(), PointDifference::cube(1));
     }
+    static CellId cube(dim_t size) {
+        return CellId(Point::origin(), PointDifference::cube(size));
+    }
     static CellId null() {
         return CellId(Point::origin(), Point::origin());
     }

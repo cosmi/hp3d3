@@ -26,10 +26,10 @@ void renderAndOpen(const Mesh<2>& mesh, const char* filename) {
 
 
 
-void renderAndOpen(const Mesh<3>& mesh, const char* filename) {
+void renderAndOpen(const Mesh<3>& mesh, const char* filename, bool onlyFasade) {
     std::string s = filename?filename:getTmpCanvasFilename();
     SVGRenderer<3, PerspectiveProjection> r(s.c_str(), mesh.getBounds());
-    r.drawMesh(mesh);
+    r.drawMesh(mesh, onlyFasade);
     r.close();
     r.openImage();
 }

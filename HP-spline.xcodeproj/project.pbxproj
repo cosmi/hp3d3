@@ -10,6 +10,7 @@
 		0D8531AB1CD138C6009750B5 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0D8531AA1CD138C6009750B5 /* main.cpp */; };
 		0D8531BA1CD3B3BF009750B5 /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0D8531B81CD3B3BF009750B5 /* test.cpp */; };
 		D39848431DA16F2800614534 /* SVGMatrixRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D39848411DA16F2800614534 /* SVGMatrixRenderer.cpp */; };
+		D39848461DA2F14000614534 /* drawings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D39848441DA2F14000614534 /* drawings.cpp */; };
 		D3CF98131D8F02E00097CCC9 /* SVGCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3CF98111D8F02E00097CCC9 /* SVGCanvas.cpp */; };
 		D3CF98161D8F0C740097CCC9 /* SVGRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3CF98141D8F0C740097CCC9 /* SVGRenderer.cpp */; };
 		D3CF98191D8F0F8B0097CCC9 /* projections.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3CF98171D8F0F8B0097CCC9 /* projections.cpp */; };
@@ -51,6 +52,8 @@
 		0D8531B91CD3B3BF009750B5 /* test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = test.h; sourceTree = "<group>"; };
 		D39848411DA16F2800614534 /* SVGMatrixRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SVGMatrixRenderer.cpp; sourceTree = "<group>"; };
 		D39848421DA16F2800614534 /* SVGMatrixRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SVGMatrixRenderer.hpp; sourceTree = "<group>"; };
+		D39848441DA2F14000614534 /* drawings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = drawings.cpp; sourceTree = "<group>"; };
+		D39848451DA2F14000614534 /* drawings.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = drawings.hpp; sourceTree = "<group>"; };
 		D3CF98111D8F02E00097CCC9 /* SVGCanvas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SVGCanvas.cpp; path = ../SVGCanvas.cpp; sourceTree = "<group>"; };
 		D3CF98121D8F02E00097CCC9 /* SVGCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVGCanvas.h; path = ../SVGCanvas.h; sourceTree = "<group>"; };
 		D3CF98141D8F0C740097CCC9 /* SVGRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SVGRenderer.cpp; sourceTree = "<group>"; };
@@ -118,6 +121,8 @@
 				D3CF98211D9692400097CCC9 /* IGANode.cpp */,
 				D3CF98221D9692400097CCC9 /* IGANode.hpp */,
 				0D8531AA1CD138C6009750B5 /* main.cpp */,
+				D39848441DA2F14000614534 /* drawings.cpp */,
+				D39848451DA2F14000614534 /* drawings.hpp */,
 				D3CF98251D96A6570097CCC9 /* MapCollection.h */,
 				0D8531B21CD13BDF009750B5 /* Mesh.h */,
 				0D8531B71CD3AF88009750B5 /* meshBuilders.h */,
@@ -217,6 +222,7 @@
 				D3CF98231D9692400097CCC9 /* IGANode.cpp in Sources */,
 				0D8531BA1CD3B3BF009750B5 /* test.cpp in Sources */,
 				D3CF98191D8F0F8B0097CCC9 /* projections.cpp in Sources */,
+				D39848461DA2F14000614534 /* drawings.cpp in Sources */,
 				D39848431DA16F2800614534 /* SVGMatrixRenderer.cpp in Sources */,
 				D3CF981C1D8F0FE50097CCC9 /* SVGHelpers.cpp in Sources */,
 				D3CF98281D96BE7E0097CCC9 /* BSpline.cpp in Sources */,

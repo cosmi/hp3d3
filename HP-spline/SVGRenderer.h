@@ -54,20 +54,26 @@ public:
     void drawCellDiagonal(const CellId<DIMS>& cid) {
         canvas.drawLine(projection(cid.getFrom()), projection(cid.getTo()));
     }
-    void drawBounds(const CellId<DIMS>& bounds) {
+    void drawBounds(const CellId<DIMS>& bounds, bool onlyFasade = false) {
         canvas.writeComment("bounds " + toString(bounds));
         auto lines = bounds.getLowerDimensionalityBounds(1);
         for(auto & line: lines) {
-            drawCellDiagonal(line);
+            bool fasade = false;
+            FOR(i, DIMS) {
+                if(line.getFrom()[i] == 0 && line.getTo()[i] == 0) fasade = true;
+            }
+            if(!onlyFasade || fasade) {
+                drawCellDiagonal(line);
+            }
         }
         
 //        canvas.drawPoint(projection(bounds));
     }
-    void drawMesh(const Mesh<DIMS>& mesh) {
-        canvas.openGroup("stroke", "#ccc");
+    void drawMesh(const Mesh<DIMS>& mesh, bool onlyFasade = false) {
+        canvas.openGroup("stroke", "black");
         for(auto& element : mesh.getElements()) {
             
-            drawBounds(element->getBounds());
+            drawBounds(element->getBounds(), onlyFasade);
         }
         
         canvas.closeGroup();
@@ -106,9 +112,9 @@ public:
     }
     
     void close() {
-        canvas.openGroup("fill", "yellow");
-        canvas.drawPoint(projection(Point<DIMS>::origin()));
-        canvas.closeGroup();
+//        canvas.openGroup("fill", "yellow");
+//        canvas.drawPoint(projection(Point<DIMS>::origin()));
+//        canvas.closeGroup();
         canvas.close();
     }
     void openImage() {
@@ -124,7 +130,7 @@ std::string getTmpCanvasFilename();
 
 void renderAndOpen(const Mesh<2>& mesh, const char* filename=nullptr);
 
-void renderAndOpen(const Mesh<3>& mesh, const char* filename=nullptr);
+void renderAndOpen(const Mesh<3>& mesh, const char* filename=nullptr, bool onlyFasade=false);
 
 template<class NodeSet>
 void renderAndOpen(const Mesh<2>& mesh, const NodeSet& nodes, const char* filename=nullptr) {

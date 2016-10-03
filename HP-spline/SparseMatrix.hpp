@@ -150,7 +150,7 @@ public:
                     }
                 }
             }
-            renderAndOpen(*this);
+//            renderAndOpen(*this);
             
 //            print(std::cout, nullptr);
             

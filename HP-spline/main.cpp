@@ -24,6 +24,8 @@
 #include "SparseMatrix.hpp"
 #include "UniversalSolver.hpp"
 
+#include "drawings.hpp"
+
 
 //void testBSpline() {
 //    std::vector<double> knots({0,0,2,4});
@@ -34,6 +36,7 @@
 //}
 
 int main(int argc, const char * argv[]) {
+    drawAllStuff();
 //    testBSpline();
 //    testCanvas();
     using namespace std;
@@ -56,13 +59,14 @@ int main(int argc, const char * argv[]) {
     selfTest();
     
     const int DIMS = 2;
-    Mesh<DIMS> m(CellId<DIMS>({0,0,0},{1024,1024,16}));
+    const int SIZE = 16*4;
+    Mesh<DIMS> m(CellId<DIMS>({0,0,0},{SIZE,SIZE,16}));
 //    for(int i = 0; i< 16; i+=4) {
-//        for(int j = 0; j<16; j+=4) {
-//            refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({i,j,4}, {i+4,j+4,8}));
-//        }
+        for(int j = 0; j<SIZE; j+=1) {
+            refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({0,j,4}, {1,j+1,8}));
+        }
 //    }
-    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({0,0}, {1,1}));
+//    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({0,0}, {1,1}));
 //    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({4,4,4}, {8,8,8}));
 //    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({8,8,8}, {12,12,12}));
     assert(isQuadLikeMesh(m));

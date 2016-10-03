@@ -13,15 +13,16 @@
 #include "GeometryHelpers.hpp"
 #include "Node.h"
 #include "Mesh.h"
-#include <unordered_map>
+#include <map>
 #include <vector>
 #include "MapCollection.h"
+
 
 template<int DIMS>
 class NodeSet {
     using Node = Node<DIMS>;
     using Mesh = Mesh<DIMS>;
-    std::unordered_map<Node*, double> nodes;
+    std::map<Node*, double, less_by_ptr<Node*> > nodes;
     const Mesh& mesh;
     NodeSet(const NodeSet& that) = delete;
 

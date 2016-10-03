@@ -32,8 +32,15 @@ public:
         
         for(auto& col: matrix.getCols()) {
             for(auto& row: col.second) {
+                double val = row.second;
+                if(isZero(val)) {
+                    canvas.openGroup("fill", "red");
+                }
                 canvas.drawRectangle(SVGPoint(colNumbers[col.first]*FIELD_SIZE, rowNumbers[row.first]*FIELD_SIZE),
                                      SVGPoint((colNumbers[col.first]+1)*FIELD_SIZE, (rowNumbers[row.first]+1)*FIELD_SIZE));
+                if(isZero(val)) {
+                    canvas.closeGroup();
+                }
             }
         }
     }

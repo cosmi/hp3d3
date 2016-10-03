@@ -39,5 +39,15 @@ Type abs(const Type& a) {
 }
 
 
+template<class ptrClass>
+struct less_by_ptr{
+    bool operator()(const ptrClass& a, const ptrClass& b) const {
+        if(!a) return b;
+        if(!b) return false;
+        return *a < *b;
+    }
+};
+
+
 
 #endif /* helpers_hpp */

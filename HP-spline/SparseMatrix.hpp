@@ -28,6 +28,18 @@ public:
         rows[row][col] = val;
         cols[col][row] = val;
     }
+    void clear(RowIdx row, ColIdx col) {
+        {
+            auto it = rows[row].find(col);
+            assert(it != rows[row].end());
+            rows[row].erase(it);
+        }
+        {
+            auto it = cols[col].find(row);
+            assert(it != cols[col].end());
+            cols[col].erase(it);
+        }
+    }
     const auto& getSetCount() const {
         return setCount;
     }
@@ -56,18 +68,18 @@ public:
         return it2->second;
     }
     
-    void substractRow(RowIdx what, RowIdx from, Val factor) {
-//        std::cout << "SUBS " << what << " from " << from << " by " << factor << std::endl;
-        auto& row = rows[what];
-        auto& target = rows[from];
-        
-        for(auto colIt: row) {
-            ColIdx colId = colIt.first;
-            Val amount = colIt.second*factor;
-            auto targetIt = target.find(colId);
-            set(from, colId, ((targetIt==target.end())?0:targetIt->second)-amount);
-        }
-    }
+//    void substractRow(RowIdx what, RowIdx from, Val factor) {
+////        std::cout << "SUBS " << what << " from " << from << " by " << factor << std::endl;
+//        auto& row = rows[what];
+//        auto& target = rows[from];
+//        
+//        for(auto colIt: row) {
+//            ColIdx colId = colIt.first;
+//            Val amount = colIt.second*factor;
+//            auto targetIt = target.find(colId);
+//            set(from, colId, ((targetIt==target.end())?0:targetIt->second)-amount);
+//        }
+//    }
     void multiplyRow(RowIdx rowId, Val factor) {
         auto& row = rows[rowId];
         for(auto colIt: row) {
@@ -96,6 +108,8 @@ public:
     
     void eliminate(ColIdx col) {
         std::unordered_set<RowIdx> eliminated_rows;
+        std::unordered_set<ColIdx> eliminated_cols;
+        print(std::cout, nullptr);
         
         for(auto colIt : cols) {
             assert(colIt.second.size()>0);
@@ -110,17 +124,36 @@ public:
                     maxVal = rowIt.second;
                     maxRowId = rowIt.first;
                     first = false;
+                    if(!isZero(rowIt.second)) break;
                 }
             }
-            multiplyRow(maxRowId, 1/maxVal);
-            for(auto rowIt: colIt.second) if(rowIt.first != maxRowId) {
-//                std::cout << "subs " << maxRowId << " " << rowIt.first << " by " << rowIt.second/maxVal << std::endl;
-                substractRow(maxRowId, rowIt.first, rowIt.second);
-            }
-            
-//            print(std::cout, nullptr);
             
             eliminated_rows.insert(maxRowId);
+            eliminated_cols.insert(colIt.first);
+            
+            assert(!isZero(maxVal));
+            multiplyRow(maxRowId, 1/maxVal);
+            
+            auto& row = rows.find(maxRowId)->second;
+            for(auto& rowIt: colIt.second) if(rowIt.first != maxRowId) {
+//                std::cout << "subs " << maxRowId << " " << rowIt.first << " by " << rowIt.second/maxVal << std::endl;
+//                substractRow(maxRowId, rowIt.first, rowIt.second);
+                // to avoid problems, zero the column
+//                clear(rowIt.first, colIt.first);
+                setCount--;
+                Val factor = get(rowIt.first, colIt.first);
+                set(rowIt.first, colIt.first, 0);
+                for(auto& col2It: row) {
+                    if(eliminated_cols.count(col2It.first) == 0) {
+                        Val oldVal = get(rowIt.first, col2It.first);
+                        set(rowIt.first, col2It.first, oldVal-factor*get(maxRowId, col2It.first));
+                    }
+                }
+            }
+            renderAndOpen(*this);
+            
+            print(std::cout, nullptr);
+            
         }
     }
     template<class ostream>

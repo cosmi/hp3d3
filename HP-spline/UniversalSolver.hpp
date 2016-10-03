@@ -27,14 +27,6 @@ struct Sample {
 //        }
 //    }
 };
-template<class ptrClass>
-struct less_by_ptr{
-    bool operator()(const ptrClass& a, const ptrClass& b) const {
-        if(!a) return b;
-        if(!b) return false;
-        return *a < *b;
-    }
-};
 
 template<class SampleColl, int DIMS>
 void solveWithSamples(NodeSet<DIMS>& nset, const SampleColl& samples) {

@@ -56,13 +56,13 @@ int main(int argc, const char * argv[]) {
     selfTest();
     
     const int DIMS = 2;
-    Mesh<DIMS> m(CellId<DIMS>({0,0,0},{16,16,16}));
+    Mesh<DIMS> m(CellId<DIMS>({0,0,0},{1024,1024,16}));
 //    for(int i = 0; i< 16; i+=4) {
 //        for(int j = 0; j<16; j+=4) {
 //            refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({i,j,4}, {i+4,j+4,8}));
 //        }
 //    }
-    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({0,0}, {8,8}));
+    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({0,0}, {1,1}));
 //    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({4,4,4}, {8,8,8}));
 //    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({8,8,8}, {12,12,12}));
     assert(isQuadLikeMesh(m));

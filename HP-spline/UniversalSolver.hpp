@@ -62,7 +62,7 @@ void solveWithSamples(NodeSet<DIMS>& nset, const SampleColl& samples) {
     std::cout << "Cols: \t" << sm.getColsCount() << std::endl;
     auto touch = sm.getSetFieldsCount();
     auto dims = sm.getRowsCount()*sm.getColsCount();
-    std::cout << "Touched:\t" << touch <<"/" << dims << " (" << touch/dims << ")" << std::endl;
+    std::cout << "Touched:\t" << touch <<"/" << dims << " (" << touch/(double)dims << ")" << std::endl;
 }
 
 template <class Function, int DIMS>

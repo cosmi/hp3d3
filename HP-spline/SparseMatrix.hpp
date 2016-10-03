@@ -109,7 +109,7 @@ public:
     void eliminate(ColIdx col) {
         std::unordered_set<RowIdx> eliminated_rows;
         std::unordered_set<ColIdx> eliminated_cols;
-        print(std::cout, nullptr);
+//        print(std::cout, nullptr);
         
         for(auto colIt : cols) {
             assert(colIt.second.size()>0);
@@ -152,7 +152,7 @@ public:
             }
             renderAndOpen(*this);
             
-            print(std::cout, nullptr);
+//            print(std::cout, nullptr);
             
         }
     }

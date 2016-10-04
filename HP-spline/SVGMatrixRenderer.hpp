@@ -31,7 +31,7 @@ public:
         auto rowNumbers = matrix.getRowNumbers();
         
         for(auto& col: matrix.getCols()) {
-            for(auto& row: col.second) {
+            if(col.first != nullptr) for(auto& row: col.second) {
                 double val = row.second;
                 if(isZero(val)) {
                     canvas.openGroup("fill", "red");
@@ -59,12 +59,14 @@ public:
 template<class RowIdx, class ColIdx, class Val, class RowCompare, class ColCompare>
 void renderAndOpen(const SparseMatrix<RowIdx, ColIdx, Val, RowCompare, ColCompare> & sm, const char* filename=nullptr) {
     static int matrixId = 0;
-    std::string s = "/tmp/matrix" + toString((int)(matrixId++)) + ".svg";
+    std::string s = filename==nullptr?"/tmp/matrix" + toString((int)(matrixId++)) + ".svg":filename;
     SVGMatrixRenderer<SparseMatrix<RowIdx, ColIdx, Val, RowCompare, ColCompare>> r(s.c_str(), sm);
     r.draw();
     r.close();
     r.openImage();
 }
+
+
 
 
 #endif /* SVGMatrixRenderer_hpp */

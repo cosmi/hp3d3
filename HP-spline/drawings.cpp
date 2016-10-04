@@ -7,10 +7,27 @@
 //
 
 #include "drawings.hpp"
+#include "UniversalSolver.hpp"
+
+void drawMatrices() {
+    
+}
 
 
 void drawAllStuff() {
     int SIZE = 8;
+    
+    
+//    return;
+    {
+        Mesh<2> m(CellId<2>::cube(SIZE));
+    
+        
+        refineMeshUntilBoundsByQuadDivisions(m, CellId<2>({0,0}, {2, 2}));
+        
+        renderAndOpen(m, "/tmp/Helper1.svg");
+    }
+    
     //refinement steps
     {
         Mesh<3> m(CellId<3>::cube(SIZE));
@@ -32,6 +49,7 @@ void drawAllStuff() {
         Mesh<2> m(CellId<2>::cube(SIZE));
         refineMeshUntilBoundsByQuadDivisions(m, CellId<2>::unit());
         renderAndOpen(m, "/tmp/PointSingularity2D.svg");
+        constructAndRenderMatrixWithMidpoints(m, "/tmp/PointSingularity2Dmatrix.svg");
     }
     
     //point singularity 3D
@@ -39,6 +57,7 @@ void drawAllStuff() {
         Mesh<3> m(CellId<3>::cube(SIZE));
         refineMeshUntilBoundsByQuadDivisions(m, CellId<3>::unit());
         renderAndOpen(m, "/tmp/PointSingularity3D.svg", true);
+        constructAndRenderMatrixWithMidpoints(m, "/tmp/PointSingularity3Dmatrix.svg");
     }
     
     //point singularity 4D
@@ -46,6 +65,7 @@ void drawAllStuff() {
         Mesh<4> m(CellId<4>::cube(SIZE));
         refineMeshUntilBoundsByQuadDivisions(m, CellId<4>({0,0,0,SIZE-1},{1,1,1,SIZE}));
         renderAndOpen(m, "/tmp/PointSingularity4D.svg");
+        constructAndRenderMatrixWithMidpoints(m, "/tmp/PointSingularity4Dmatrix.svg");
     }
     
     //edge singularity 2D
@@ -55,6 +75,7 @@ void drawAllStuff() {
             refineMeshUntilBoundsByQuadDivisions(m, CellId<2>({0,i}, {1, i+1}));
         }
         renderAndOpen(m, "/tmp/EdgeSingularity2D.svg");
+        constructAndRenderMatrixWithMidpoints(m, "/tmp/EdgeSingularity2Dmatrix.svg");
     }
     
     //edge singularity 3D
@@ -64,6 +85,7 @@ void drawAllStuff() {
             refineMeshUntilBoundsByQuadDivisions(m, CellId<3>({0,i,0}, {1, i+1,1}));
         }
         renderAndOpen(m, "/tmp/EdgeSingularity3D.svg", true);
+        constructAndRenderMatrixWithMidpoints(m, "/tmp/EdgeSingularity3Dmatrix.svg");
     }
     
     //edge singularity 4D
@@ -72,8 +94,11 @@ void drawAllStuff() {
         FOR(i, SIZE) {
             refineMeshUntilBoundsByQuadDivisions(m, CellId<4>({0,i,0,SIZE-1}, {1, i+1,1,SIZE}));
         }
+        
         renderAndOpen(m, "/tmp/EdgeSingularity4D.svg");
+        constructAndRenderMatrixWithMidpoints(m, "/tmp/EdgeSingularity4Dmatrix.svg");
     }
+    SIZE=8;
     //face singularity 3D
     {
         Mesh<3> m(CellId<3>::cube(SIZE));
@@ -83,6 +108,7 @@ void drawAllStuff() {
             }
         }
         renderAndOpen(m, "/tmp/FaceSingularity3D.svg", true);
+        constructAndRenderMatrixWithMidpoints(m, "/tmp/FaceSingularity3Dmatrix.svg");
     }
     
     //face singularity 4D
@@ -94,6 +120,7 @@ void drawAllStuff() {
             }
         }
         renderAndOpen(m, "/tmp/FaceSingularity4D.svg");
+        constructAndRenderMatrixWithMidpoints(m, "/tmp/FaceSingularity4Dmatrix.svg");
     }
     
     //hyperface singularity 4D
@@ -107,9 +134,10 @@ void drawAllStuff() {
             }
         }
         renderAndOpen(m, "/tmp/HyperfaceSingularity4D.svg");
+        constructAndRenderMatrixWithMidpoints(m, "/tmp/HyperfaceSingularity4Dmatrix.svg");
     }
-    
-    
+    return;
+    SIZE=16;
     //point singularity 2D
     {
         Mesh<2> m(CellId<2>({0,0},{SIZE, SIZE}));
@@ -163,6 +191,7 @@ void drawAllStuff() {
         enforceSecondNeiborDifference(m);
         renderAndOpen(m, "/tmp/EdgeSingularity4D+.svg");
     }
+    SIZE=8;
     //face singularity 3D
     {
         Mesh<3> m(CellId<3>::cube(SIZE));

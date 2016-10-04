@@ -28,5 +28,6 @@
 #include "UniversalSolver.hpp"
 
 void drawAllStuff();
+void drawMatrices();
 
 #endif /* drawings_hpp */

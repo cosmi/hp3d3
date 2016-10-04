@@ -64,7 +64,7 @@ int main(int argc, const char * argv[]) {
     Mesh<DIMS> m(CellId<DIMS>({0,0,0},{SIZE,SIZE,16}));
 //    for(int i = 0; i< 16; i+=4) {
         for(int j = 0; j<SIZE; j+=1) {
-            refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({0,j,4}, {1,j+1,8}));
+            refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({0,j,0}, {1,j+1,1}));
         }
 //    }
 //    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({0,0}, {1,1}));

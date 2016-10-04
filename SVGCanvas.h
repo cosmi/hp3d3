@@ -23,7 +23,7 @@ class SVGCanvas {
     void initSVG(double x1, double y1, double x2, double y2) {
         double width = x2-x1;
         double height = y2-y1;
-        double lineWidth = std::min(1., std::max(width,height)/500);
+        double lineWidth = std::min(1., std::max(width,height)/300);
         double margin = 5*lineWidth;
         
         os << "<svg version=\"1.1\" baseProfile=\"full\" xmlns=\"http://www.w3.org/2000/svg\""

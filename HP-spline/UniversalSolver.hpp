@@ -13,6 +13,8 @@
 #include "NodeSet.hpp"
 #include "SparseMatrix.hpp"
 #include "GeometryHelpers.hpp"
+#include "nodeBuilders.h"
+#include "IGANode.hpp"
 #include "SVGMatrixRenderer.hpp"
 
 template<int DIMS>
@@ -79,6 +81,41 @@ void solveWithMidpoints(NodeSet<DIMS>& nset, const Function& fun) {
     }
     solveWithSamples(nset, samples);
 }
+
+
+
+template <int DIMS>
+void constructAndRenderMatrixWithMidpoints(Mesh<DIMS>& mesh, const char* filename = nullptr) {
+    //    const Mesh<DIMS>& mesh = nset.getMesh();
+    
+    NodeSet<DIMS> nset(mesh);
+    nset.addNodes(generateElementBasedNodes<DIMS, IGANode<2, DIMS>>(mesh));
+    
+    auto fun = [](const Coordinate<DIMS>&x) {return 1.;/*/(x[0]+x[1]+1);*/};
+    
+    std::vector<Sample<DIMS>> samples;
+    
+    for(auto node : nset.getNodes()) {
+        auto midpoint = getMidPoint(node->getAnchor());
+        
+        samples.emplace_back(Sample<DIMS>{midpoint, fun(midpoint)});
+    }
+    
+    SparseMatrix<int, Node<DIMS>*, double, std::less<int>, less_by_ptr<Node<DIMS>*>> sm;
+    
+    int sampleIdx = 0;
+    for(const Sample<DIMS>& s: samples) {
+        auto deps = nset.getLinearDeps(s.coords);
+        
+        for(auto dep: deps) {
+            sm.set(sampleIdx, dep.first, dep.second);
+        }
+        sm.set(sampleIdx, nullptr, s.val);
+        sampleIdx++;
+    }
+    renderAndOpen(sm, filename);
+}
+
 
 
 

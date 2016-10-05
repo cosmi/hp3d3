@@ -114,6 +114,7 @@
 		0D8531A91CD138C6009750B5 /* HP-spline */ = {
 			isa = PBXGroup;
 			children = (
+				0D8531AA1CD138C6009750B5 /* main.cpp */,
 				0D8531B41CD13D8B009750B5 /* CellId.h */,
 				0D8531B51CD13DBC009750B5 /* defs.h */,
 				0D8531B31CD13C0B009750B5 /* Element.h */,
@@ -123,7 +124,6 @@
 				0D38B7531CE1C9BF006E4F7E /* HPNodes.h */,
 				D3CF98211D9692400097CCC9 /* IGANode.cpp */,
 				D3CF98221D9692400097CCC9 /* IGANode.hpp */,
-				0D8531AA1CD138C6009750B5 /* main.cpp */,
 				D39848441DA2F14000614534 /* drawings.cpp */,
 				D39848451DA2F14000614534 /* drawings.hpp */,
 				D3CF98251D96A6570097CCC9 /* MapCollection.h */,

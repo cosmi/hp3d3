@@ -60,14 +60,15 @@ int main(int argc, const char * argv[]) {
 //    return 0;
     
     const int DIMS = 2;
-    const int SIZE = 16*4;
-    Mesh<DIMS> m(CellId<DIMS>({0,0,0},{SIZE,SIZE,16}));
-//    for(int i = 0; i< 16; i+=4) {
-////        for(int j = 0; j<SIZE; j+=1) {
-////            refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({0,j,0}, {1,j+1,1}));
-//        }
+    const int SIZE = 16;
+    Mesh<DIMS> m(CellId<DIMS>::cube(SIZE));
+//    for(int i = 0; i< SIZE; i+=1) {
+    int i = 0;
+        for(int j = 0; j<SIZE; j+=1) {
+            refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({i,j,0,0}, {i+1,j+1,1,1}));
+        }
 //    }
-    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({0,0}, {1,1}));
+//    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>::cube(1));
 //    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({4,4,4}, {8,8,8}));
 //    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({8,8,8}, {12,12,12}));
     assert(isQuadLikeMesh(m));
@@ -99,7 +100,7 @@ int main(int argc, const char * argv[]) {
 //        break;
     }
     auto ordering = weightedBisectionOrdering(nset);
-    renderAndOpen(m, nset);
+//    renderAndOpen(m, nset);
     auto fun = [](const Coordinate<DIMS>&x) {return 1.;/*/(x[0]+x[1]+1);*/};
     
     solveWithMidpointsInOrder(nset, fun, ordering);

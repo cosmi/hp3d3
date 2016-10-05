@@ -31,7 +31,7 @@ protected:
 public:
     PointBase(std::initializer_list<dim_t> list ) {
         int i = 0;
-        for( auto elem: list) {
+        for( auto elem: list) if(i < DIMS) {
             dims[i++] = elem;
         }
     }

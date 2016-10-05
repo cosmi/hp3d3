@@ -80,9 +80,11 @@ void weightedBisectionOrderingHelper(const std::vector<Node<DIMS>*>& nodes, Cell
         
         
         for(auto node: nodes) {
-            if(bounds.covers(node->getBounds()) && !half.covers(node->getBounds()) && half2.covers(node->getBounds())) {
+            if(bounds.covers(node->getBounds()) && !half.covers(node->getBounds()) && !half2.covers(node->getBounds())) {
                 result.push_back(node);
             }
+            assert(!half.covers(node->getBounds()) || find(s[0].begin(), s[0].end(), node)!=s[0].end());
+            assert(!half2.covers(node->getBounds()) || find(s[1].begin(), s[1].end(), node)!=s[1].end());
         }
         
     } else {
@@ -98,17 +100,18 @@ template<int DIMS>
 std::vector<Node<DIMS>*> weightedBisectionOrdering(const NodeSet<DIMS>& nset) {
     const Mesh<DIMS>& mesh = nset.getMesh();
     using Set = std::unordered_set<Node<DIMS>*>;
-    
+    CellId<DIMS> bounds = mesh.getBounds();
     auto nodes1 = nset.getNodes();
     std::vector<Node<DIMS>*> nodes;
     for(auto node: nodes1) {
         nodes.push_back(node);
+        assert(bounds.covers(node->getBounds()));
     }
     
-    CellId<DIMS> bounds = mesh.getBounds();
+    
     std::vector<Node<DIMS>*> result;
     weightedBisectionOrderingHelper(nodes, bounds, result);
-    
+    assert(result.size() == nset.getNodes().size());
     return result;
 }
 

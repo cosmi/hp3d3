@@ -141,7 +141,7 @@ public:
 //                substractRow(maxRowId, rowIt.first, rowIt.second);
                 // to avoid problems, zero the column
 //                clear(rowIt.first, colIt.first);
-                setCount--;
+//                setCount--;
                 Val factor = get(rowIt.first, colIt.first);
                 set(rowIt.first, colIt.first, 0);
                 for(auto& col2It: row) {
@@ -160,9 +160,11 @@ public:
     void eliminateInOrder(ColIdx col, const std::vector<ColIdx>& order) {
         std::unordered_set<RowIdx> eliminated_rows;
         std::unordered_set<ColIdx> eliminated_cols;
+        assert(order.size() == rows.size());
         //        print(std::cout, nullptr);
         
         for(auto colId : order) {
+            assert(get(colId, colId) != 0);
             assert(rows.find(colId) != rows.end());
             assert(cols.find(colId) != cols.end());
             auto& colIt = *cols.find(colId);
@@ -184,7 +186,7 @@ public:
 //            }
             
             eliminated_rows.insert(colId);
-//            eliminated_cols.insert(colId);
+            eliminated_cols.insert(colId);
             
 //            assert(!isZero(maxVal));
             multiplyRow(colId, 1/get(colId, colId));
@@ -195,7 +197,7 @@ public:
                 //                substractRow(maxRowId, rowIt.first, rowIt.second);
                 // to avoid problems, zero the column
                 //                clear(rowIt.first, colIt.first);
-                setCount--;
+//                setCount--;
                 Val factor = get(rowIt.first, colIt.first);
                 set(rowIt.first, colIt.first, 0);
                 for(auto& col2It: row) {
@@ -207,7 +209,7 @@ public:
             }
             //            renderAndOpen(*this);
             
-            //            print(std::cout, nullptr);
+                       print(std::cout, nullptr);
             
         }
     }

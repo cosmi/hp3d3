@@ -103,7 +103,7 @@ int main(int argc, const char * argv[]) {
     auto fun = [](const Coordinate<DIMS>&x) {return 1.;/*/(x[0]+x[1]+1);*/};
     
     solveWithMidpointsInOrder(nset, fun, ordering);
-    solveWithMidpoints(nset, fun);
+//    solveWithMidpoints(nset, fun);
     
     
 //    for(double i = testnode->getKnot(0,0); i<= testnode->getKnot(0,3); i+=0.2) {

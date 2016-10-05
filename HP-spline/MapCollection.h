@@ -56,6 +56,10 @@ public:
         }
         return result;
     }
+    
+    auto size() const {
+        return coll.size();
+    }
 };
 
 template<class Filter, class Collection>

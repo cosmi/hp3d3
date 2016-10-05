@@ -28,7 +28,7 @@ public:
         return neighbors;
     }
     auto getNeighbors() const {
-        return filter<Element*>(neighbors, [this](Element*el) {
+        return filter(neighbors, [this](Element*el) {
             return el->getBounds().isNeighboring(this->getBounds());
         });
     }

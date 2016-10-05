@@ -21,7 +21,7 @@
 
 void testFilterAndMap() {
     std::vector<int> V({1,2,3});
-    auto f = mapping(filter<int>(V, [](int x){return x%2 == 0;}), [](int x){return 2*x;});
+    auto f = mapping(filter(V, [](int x){return x%2 == 0;}), [](int x){return 2*x;});
 //    for(auto i : f) {
 //        std::cout << i << std::endl;
 //    }

@@ -12,6 +12,7 @@
 #include <iostream>
 #include <map>
 #include <unordered_set>
+#include <vector>
 #include <unordered_map>
 template<class RowIdx = int, class ColIdx = int, class Val = double, class RowCompare=std::less<RowIdx>, class ColCompare=std::less<ColIdx>  >
 class SparseMatrix {
@@ -100,7 +101,7 @@ public:
                     largest = rowIt.second;
                 }
             }
-            assert(largest > 0.99 && largest < 1.01);
+//            assert(largest > 0.99 && largest < 1.01);
         }
         assert(result.size() == cols.size()-1);
         return result;
@@ -156,6 +157,61 @@ public:
             
         }
     }
+    void eliminateInOrder(ColIdx col, const std::vector<ColIdx>& order) {
+        std::unordered_set<RowIdx> eliminated_rows;
+        std::unordered_set<ColIdx> eliminated_cols;
+        //        print(std::cout, nullptr);
+        
+        for(auto colId : order) {
+            assert(rows.find(colId) != rows.end());
+            assert(cols.find(colId) != cols.end());
+            auto& colIt = *cols.find(colId);
+            assert(colIt.second.size()>0);
+//            ColIdx colId = colIt.first;
+            assert(colId != col);
+            if(colId == col) continue;
+            
+//            Val maxVal;// = colIt.second.begin()->second;
+//            RowIdx maxRowId;// = colIt.second.begin()->first;
+//            bool first = true;
+//            for(auto rowIt: colIt.second) if(eliminated_rows.count(rowIt.first) == 0) {
+//                if(first || abs(rowIt.second) > abs(maxVal)) {
+//                    maxVal = rowIt.second;
+//                    maxRowId = rowIt.first;
+//                    first = false;
+//                    if(!isZero(rowIt.second)) break;
+//                }
+//            }
+            
+            eliminated_rows.insert(colId);
+//            eliminated_cols.insert(colId);
+            
+//            assert(!isZero(maxVal));
+            multiplyRow(colId, 1/get(colId, colId));
+            
+            auto& row = rows.find(colId)->second;
+            for(auto& rowIt: colIt.second) if(rowIt.first != colId) {
+                //                std::cout << "subs " << maxRowId << " " << rowIt.first << " by " << rowIt.second/maxVal << std::endl;
+                //                substractRow(maxRowId, rowIt.first, rowIt.second);
+                // to avoid problems, zero the column
+                //                clear(rowIt.first, colIt.first);
+                setCount--;
+                Val factor = get(rowIt.first, colIt.first);
+                set(rowIt.first, colIt.first, 0);
+                for(auto& col2It: row) {
+                    if(eliminated_cols.count(col2It.first) == 0) {
+                        Val oldVal = get(rowIt.first, col2It.first);
+                        set(rowIt.first, col2It.first, oldVal-factor*get(colId, col2It.first));
+                    }
+                }
+            }
+            //            renderAndOpen(*this);
+            
+            //            print(std::cout, nullptr);
+            
+        }
+    }
+    
     template<class ostream>
     void print(ostream& os, RowIdx fromRow, RowIdx toRow, ColIdx fromCol, ColIdx toCol) {
         for(RowIdx row = fromRow; row<=toRow; row++) {

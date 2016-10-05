@@ -8,9 +8,13 @@
 
 #ifndef FilterCollection_h
 #define FilterCollection_h
+#include <vector>
 
-template<class ValueType, class Filter, class Collection>
+template<class Filter, class Collection>
 class FilterCollection {
+public:
+    using value_type = typename Collection::value_type;
+private:
     using iterator_type = typename Collection::const_iterator;
     Filter filter;
     const Collection& coll;
@@ -28,7 +32,7 @@ public:
         const_iterator(const iterator_type& it, const FilterCollection& outer ):it(it), outer(outer) {
             jump();
         }
-        const ValueType& operator*() const {
+        const auto& operator*() const {
             return *it;
         }
         const_iterator& operator++() {
@@ -51,11 +55,26 @@ public:
     const_iterator end() const {
         return const_iterator(coll.end(), *this);
     }
+    
+    size_t size() const {
+        size_t count = 0;
+        for(auto& el : *this) {
+            count++;
+        }
+        return count;
+    }
+    operator std::vector<value_type>() const {
+        std::vector<value_type> result;
+        for(auto& it : *this) {
+            result.push_back(it);
+        }
+        return result;
+    }
 };
 
-template<class ValueType, class Filter, class Collection>
-FilterCollection<ValueType, Filter, Collection> filter(const Collection& coll, const Filter& filter) {
-    return FilterCollection<ValueType, Filter, Collection>(coll, filter);
+template<class Filter, class Collection>
+FilterCollection<Filter, Collection> filter(const Collection& coll, const Filter& filter) {
+    return FilterCollection<Filter, Collection>(coll, filter);
 }
 
 

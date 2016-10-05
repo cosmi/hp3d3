@@ -131,6 +131,10 @@ public:
         return getFrom().hasRelation(cid.getFrom(), PointRelation::LESS_OR_EQ)
         && getTo().hasRelation(cid.getTo(), PointRelation::MORE_OR_EQ);
     }
+    
+    bool stronglyOverlaps(const CellId& cid) const {
+        return getNeighborhoodLevel(cid) == DIMS;
+    }
     /*
      * Has at least common boundary?
      */
@@ -241,6 +245,19 @@ public:
         assert(size[splittingDim]%2 == (dim_t)0);
         auto nsize = PointDifference(size.replaceDim(splittingDim, size[splittingDim]/2));
         return CellId(getFrom(), nsize);
+    }
+    
+    CellId getHalf(size_t dim) const {
+        dim_t size = getSize()[dim];
+        assert(size > 1 && size%2 == 0);
+        PointDifference nsize(getSize().replaceDim(dim, size/2));
+        return CellId(getFrom(), nsize);
+    }
+    CellId getSecondHalf(size_t dim) const {
+        dim_t size = getSize()[dim];
+        assert(size > 1 && size%2 == 0);
+        PointDifference nsize(getSize().replaceDim(dim, size/2));
+        return CellId(Point(getFrom().replaceDim(dim, getFrom()[dim]+size/2)), nsize);
     }
     
     CellId getOverlap(const CellId& c2) const {

@@ -25,7 +25,7 @@
 #include "UniversalSolver.hpp"
 
 #include "drawings.hpp"
-
+#include "OrderingGenerator.hpp"
 
 //void testBSpline() {
 //    std::vector<double> knots({0,0,2,4});
@@ -36,7 +36,7 @@
 //}
 
 int main(int argc, const char * argv[]) {
-    drawAllStuff();
+//    drawAllStuff();
 //    testBSpline();
 //    testCanvas();
     using namespace std;
@@ -57,17 +57,17 @@ int main(int argc, const char * argv[]) {
 //    return 0;
     
     selfTest();
-    return 0;
+//    return 0;
     
     const int DIMS = 2;
     const int SIZE = 16*4;
     Mesh<DIMS> m(CellId<DIMS>({0,0,0},{SIZE,SIZE,16}));
 //    for(int i = 0; i< 16; i+=4) {
-        for(int j = 0; j<SIZE; j+=1) {
-            refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({0,j,0}, {1,j+1,1}));
-        }
+////        for(int j = 0; j<SIZE; j+=1) {
+////            refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({0,j,0}, {1,j+1,1}));
+//        }
 //    }
-//    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({0,0}, {1,1}));
+    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({0,0}, {1,1}));
 //    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({4,4,4}, {8,8,8}));
 //    refineMeshUntilBoundsByQuadDivisions(m, CellId<DIMS>({8,8,8}, {12,12,12}));
     assert(isQuadLikeMesh(m));
@@ -82,12 +82,12 @@ int main(int argc, const char * argv[]) {
     using Node = IGANode<2, DIMS> ;
     NodeSet<DIMS> nset(m);
     nset.addNodes(generateElementBasedNodes<DIMS, Node >(m));
-    IGANode<2,DIMS>* testnode;
+//    IGANode<2,DIMS>* testnode;
     for(auto n1: nset.getNodes()) {
         
         IGANode<2,DIMS>* node = dynamic_cast<IGANode<2,DIMS>*>(n1);
         nset.setNodeValue(n1, 1);
-        testnode = node;
+//        testnode = node;
 //        FOR(i, int(DIMS)) {
 //            FOR(j, 4) {
 //                cout << node->getKnot(i,j) << endl;
@@ -98,9 +98,11 @@ int main(int argc, const char * argv[]) {
 //        cout << n1->getValue({16.,14.}) << " " << n1->getValue({16.,14.5}) << " " << n1->getValue({16.,15.}) << endl;
 //        break;
     }
-    
+    auto ordering = weightedBisectionOrdering(nset);
     renderAndOpen(m, nset);
     auto fun = [](const Coordinate<DIMS>&x) {return 1.;/*/(x[0]+x[1]+1);*/};
+    
+    solveWithMidpointsInOrder(nset, fun, ordering);
     solveWithMidpoints(nset, fun);
     
     

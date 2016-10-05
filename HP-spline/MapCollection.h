@@ -8,10 +8,13 @@
 
 #ifndef MapCollection_h
 #define MapCollection_h
-
+#include <vector>
 
 template<class Filter, class Collection>
 class MapCollection {
+public:
+    using value_type = typename Collection::value_type;
+private:
     using iterator_type = typename Collection::const_iterator;
     Filter filter;
     const Collection& coll;
@@ -44,6 +47,14 @@ public:
     }
     const_iterator end() const {
         return const_iterator(coll.end(), *this);
+    }
+    
+    operator std::vector<value_type>() const {
+        std::vector<value_type> result;
+        for(auto& it : *this) {
+            result.push_back(it);
+        }
+        return result;
     }
 };
 
